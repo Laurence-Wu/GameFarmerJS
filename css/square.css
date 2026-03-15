@@ -1,8 +1,22 @@
 .square {
-	width: 32px;
-	height: 32px;
-	float: left;
+	display: block;
 	position: relative;
+	box-sizing: border-box;
+	transition: transform 0.1s;
+}
+
+.empty-square {
+	display: block;
+	position: relative;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, 0.05); /* Subtle water/void look */
+	pointer-events: none;
+}
+
+.square img {
+	width: 100%;
+	height: 100%;
+	display: block;
 }
 
 .square img:not(.ground, #ground_side, #ground_corner) {
@@ -11,9 +25,21 @@
 	left: 50%;
 	transform: translateX(-50%);
 	pointer-events: none;
+	width: 100%;
+	height: auto;
 }
 
-#ground:hover, #ground_farm:hover {
-	transition: border-radius 0.3s ease;
-	border-radius: 13px;
+/* Land Hover Effect */
+.square:hover::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+	pointer-events: none;
+	z-index: 10;
 }

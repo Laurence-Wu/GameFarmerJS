@@ -16,13 +16,15 @@ export default class ButtonSell extends Button {
         let sellElement = Element.getElementFromId(parentElement.parentElement.querySelector("#imgElement img").id);
         if (!sellElement)
             sellElement = Resource.getResource(parentElement.parentElement.querySelector("#imgElement img").id);
+        
         const sellQuantity = parseInt(parentElement.querySelector("#sellQuantity").value);
         if (sellElement.getQuantity() < sellQuantity) {
             displayMessageToAlertBox(ENG_LANG.NO_ENOUGH_RESOURCE);
             return;
         }
 
-        const sellPrice = parentElement.querySelector("#sellPrice").value * sellQuantity;
+        // The output value is already total (unit price * quantity)
+        const sellPrice = parseInt(parentElement.querySelector("#sellPrice").value);
         const player = Player.player;
 
         player.addMoney(sellPrice);

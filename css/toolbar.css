@@ -5,57 +5,102 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #8842d5;
+    background-color: var(--bg-panel);
+    backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .center-items {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 #toolbar li,
 #toolbar li div {
     display: flex;
     align-items: center;
-    min-height: 50px;
-    min-width: 159px;
+    min-height: 60px;
+    min-width: 140px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    font-family: var(--font-family);
+    box-sizing: border-box;
+    border: 3px solid transparent;
 }
 
+
 #toolbar li .txt {
-    color: white;
-    padding: 2px;
-    flex-grow: 1;
+    color: var(--text-main);
+    padding: 4px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 #toolbar li .txtNumber {
-    color: white;
-    padding: 15px;
+    color: var(--color-accent);
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 #toolbar img {
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
 }
 
 #toolbar li div:not(.dropup-content):hover {
-    background-color: #b580ed;
+    background-color: var(--color-primary-light);
+    transform: translateY(-2px);
+    border: 3px solid rgba(0,0,0,0.1);
 }
 
 #toolbar li:not(.center-items):hover {
-    background-color: #b580ed;
+    background-color: var(--color-primary-light);
+    transform: translateY(-2px);
+    border: 3px solid rgba(0,0,0,0.1);
 }
+
 
 #toolbar .dropup-content {
     display: none;
     position: absolute;
-    background-color: #8842d5;
-    min-width: 140px;
-    bottom: 50px;
-    z-index: 1;
+    background-color: var(--color-primary-dark);
+    min-width: 160px;
+    bottom: 60px;
+    z-index: 10;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 #toolbar .dropup:hover .dropup-content {
     display: block;
+}
+
+#toolbar .dropup-content div {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#toolbar .dropup-content div:hover {
+    background-color: var(--color-primary);
+}
+
+@media (max-width: 800px) {
+    #toolbar li, #toolbar li div {
+        min-width: 100px;
+        min-height: 50px;
+    }
+    #toolbar li .txt {
+        display: none;
+    }
+    #toolbar img {
+        margin-right: 10px;
+    }
 }

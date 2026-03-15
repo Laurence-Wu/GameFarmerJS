@@ -14,13 +14,17 @@ export default class Map {
         Map.map.setAttribute("id", "map");
         document.body.prepend(Map.map);
 
-        let result = getPercent(screen.width, mapWidth);
-        Map.map.style.width = result - (result % globalSize) + "px";
-        result = getPercent(screen.height, mapHeight);
-        Map.map.style.height = result - (result % globalSize) + "px";
+        // Map Size in Grid Units
+        let pixelWidth = getPercent(window.innerWidth, parseFloat(mapWidth));
+        let pixelHeight = getPercent(window.innerHeight, parseFloat(mapHeight));
+        
+        this.squaresPerRow = Math.max(10, Math.floor(pixelWidth / globalSize));
+        this.numRows = Math.max(10, Math.floor(pixelHeight / globalSize));
 
-        this.squaresPerRow = Math.floor(Map.map.clientWidth / globalSize);
-        this.numRows = Math.floor(Map.map.clientHeight / globalSize);
+
+        // Adjust Container Size
+        Map.map.style.width = (this.squaresPerRow * globalSize) + "px";
+        Map.map.style.height = (this.numRows * globalSize) + "px";
 
         this.#mapGenerator();
         return this;
@@ -30,43 +34,94 @@ export default class Map {
         Map.map.appendChild(square);
     }
 
+    #generateIslandShape() {
+        const landTiles = new Set();
+        const maxTiles = this.numRows * this.squaresPerRow;
+        const targetLandCount = Math.floor(maxTiles * 0.55); // Island covers 55% area
+
+        let curX = Math.floor(this.numRows / 2);
+        let curY = Math.floor(this.squaresPerRow / 2);
+
+        // Drunkard's Walk
+        while (landTiles.size < targetLandCount) {
+            landTiles.add(`${curX},${curY}`);
+
+            const dir = Math.floor(Math.random() * 4);
+            if (dir === 0) curX++;
+            else if (dir === 1) curX--;
+            else if (dir === 2) curY++;
+            else if (dir === 3) curY--;
+
+            // Boundary Padding
+            curX = Math.max(1, Math.min(this.numRows - 2, curX));
+            curY = Math.max(1, Math.min(this.squaresPerRow - 2, curY));
+        }
+        return landTiles;
+    }
+
     #mapGenerator() {
         const start = performance.now();
+        const islandTiles = this.#generateIslandShape();
         const naturalSpawnableElement = Element.elements.filter((elem) => elem.naturalSpawnChance);
+
         for (let x = 0; x < this.numRows; x++) {
             for (let y = 0; y < this.squaresPerRow; y++) {
                 const square = document.createElement('div');
                 square.classList.add('square');
-                if (this.#isCorner(x, y))
-                    addImgToSquare(square, Element.getElementFromId("ground_corner").getImage());
-                else if (this.#isBorderOfMap(x, y))
-                    addImgToSquare(square, Element.getElementFromId("ground_side").getImage());
-                else {
-                    addImgToSquare(square, Element.getElementFromId("ground").getImage());
-                    if (Math.random() * 100 <= naturalGeneration) {
-                        this.#generateElement(square, [...naturalSpawnableElement]);
+                square.style.width = globalSize + "px";
+                square.style.height = globalSize + "px";
+
+                if (islandTiles.has(`${x},${y}`)) {
+                    // Check neighbors for border textures
+                    const neighbors = this.#getNeighborStats(x, y, islandTiles);
+                    
+                    if (neighbors.count < 8) {
+                        addImgToSquare(square, Element.getElementFromId("ground_side").getImage());
+                        const img = square.querySelector('img');
+                        img.style.transform = this.#calculateEdgeRotation(neighbors);
+                    } else {
+                        addImgToSquare(square, Element.getElementFromId("ground").getImage());
+                        if (Math.random() * 100 <= naturalGeneration) {
+                            this.#generateElement(square, [...naturalSpawnableElement]);
+                        }
                     }
+                } else {
+                    square.classList.add('empty-square'); // Non-playable water/void
                 }
-                const img = square.querySelector('img');
-                img.style.transform = this.#rotateCalculation(x, y);
+                
                 this.#addSquare(square);
             }
         }
-        console.log(`Time to load the map: ${performance.now() - start} ms`);
+        console.log(`Island Loaded in ${performance.now() - start} ms. Land Tiles: ${islandTiles.size}`);
+    }
+
+    #getNeighborStats(x, y, islandTiles) {
+        const directions = [
+            {dx: -1, dy: 0, tag: 'N'}, {dx: 1, dy: 0, tag: 'S'},
+            {dx: 0, dy: -1, tag: 'W'}, {dx: 0, dy: 1, tag: 'E'},
+            {dx: -1, dy: -1}, {dx: -1, dy: 1}, {dx: 1, dy: -1}, {dx: 1, dy: 1}
+        ];
+        
+        let count = 0;
+        let map = {};
+        directions.forEach(d => {
+            const has = islandTiles.has(`${x + d.dx},${y + d.dy}`);
+            if (has) count++;
+            if (d.tag) map[d.tag] = has;
+        });
+        
+        return { count, ...map };
+    }
+
+    #calculateEdgeRotation(n) {
+        if (!n.N) return "rotate(0deg)";
+        if (!n.E) return "rotate(90deg)";
+        if (!n.S) return "rotate(180deg)";
+        if (!n.W) return "rotate(270deg)";
+        return "rotate(0deg)";
     }
 
     #generateElement(square, naturalSpawnableElement) {
-        /*let randValue = Math.floor(Math.random() * 100);
-        while (naturalSpawnableElement.length > 0) {
-            const selector = Math.floor(Math.random() * naturalSpawnableElement.length);
-            let block = naturalSpawnableElement[selector]
-            if (randValue <= block.naturalSpawnChance) {
-                block.setBlockToSquare(square)
-                break;
-            }
-            naturalSpawnableElement.splice(selector, 1);
-        }*/
-
         while (true) {
             let element = naturalSpawnableElement[Math.floor(Math.random() * naturalSpawnableElement.length)];
             let randValue = Math.floor(Math.random() * 100);
@@ -77,38 +132,12 @@ export default class Map {
         }
     }
 
-    #isCorner(x, y) {
-        return x === 0 && y === 0 || x === 0 && y === (this.squaresPerRow - 1) ||
-            y === 0 && x === (this.numRows - 1) || x === (this.numRows - 1) && y === (this.squaresPerRow - 1);
-    }
-
-    #isBorderOfMap(x, y) {
-        return x <= 0 || y <= 0 || x >= (this.numRows - 1) || y >= (this.squaresPerRow - 1);
-    }
-
-    #rotateCalculation(x, y) {
-        if (x === 0 && y > 0)
-            return "rotate(90deg)";
-        else if (y === (this.squaresPerRow - 1))
-            return "rotate(180deg)";
-        else if (x === (this.numRows - 1))
-            return "rotate(270deg)";
-        return "rotate(0deg)";
-    }
-
     getElementFromSquare(square) {
         const nodes = square.querySelectorAll('img');
+        if (nodes.length === 0) return null;
         return Element.getElementFromId(nodes[nodes.length - 1].getAttribute('id'));
     }
 
-    /**
-     * Checks if the square contains the maximum number of element allowed.
-     *
-     * A square can contain only 2 Elements, so if the length returned by the
-     * selectorAll is more than 1, it means the maximum Elements is reached in this square.
-     *
-     * @returns {boolean} True if the square is max, otherwise false.
-     */
     isSquareContainMaxElement(square) {
         return square.querySelectorAll('img').length > 1;
     }

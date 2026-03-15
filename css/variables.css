@@ -1,0 +1,37 @@
+:root {
+    /* Primary Color Scheme */
+    --color-primary: #8842d5;
+    --color-primary-light: #b580ed;
+    --color-primary-dark: #6a1b9a;
+    
+    /* Backgrounds */
+    --bg-page: #9bd4c3;
+    --bg-overlay: rgba(0, 0, 0, 0.4);
+    --bg-panel: rgba(136, 66, 213, 0.95);
+    --bg-input: #4a148c;
+    
+    /* Functional Colors */
+    --color-success: #2e7d32;
+    --color-danger: #c62828;
+    --color-warning: #fbc02d;
+    --color-accent: #ffd700;
+    
+    /* Text Colors */
+    --text-main: #ffffff;
+    --text-muted: #e0e0e0;
+    --text-label: #cccccc;
+    
+    /* UI Sizing & Geometry */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 40px;
+    
+    --border-thick: 3px;
+    --comic-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    --comic-shadow-hover: 0 6px 0 rgba(0, 0, 0, 0.3);
+    --comic-outline: 3px solid rgba(0, 0, 0, 0.2);
+    
+    /* Fonts */
+    --font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

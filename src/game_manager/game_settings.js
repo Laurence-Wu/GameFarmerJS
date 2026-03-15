@@ -1,6 +1,6 @@
 import {SOUND} from "./game_assets.js";
 
-export const globalSize = 32;
+export let globalSize;
 export let mapHeight;
 export let mapWidth;
 export let timeToGrow;
@@ -8,6 +8,7 @@ export let naturalGeneration;
 export let infiniteResources;
 
 export default function defineGameSettings() {
+    globalSize = parseInt(document.getElementById("inputTileSize").value);
     mapHeight = document.getElementById("inputMapHeight").value;
     mapWidth = document.getElementById("inputMapWidth").value;
     timeToGrow = document.getElementById("inputTimeToGrow").value;

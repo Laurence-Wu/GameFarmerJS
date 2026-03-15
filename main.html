@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farm Simulator</title>
+    <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/square.css">
     <link rel="stylesheet" href="css/toolbar.css">
@@ -14,36 +15,75 @@
     <link rel="icon" type="image/png" href="assets/image/icon/favicon.png" />
 </head>
 <body draggable="false">
-    <div class="menu">
-        <h1>Game settings</h1>
+    <div class="menu-initial-container">
+        <div class="menu initial-menu">
+            <header class="menu-header">
+                <h1>Farm Simulator</h1>
+                <p>Configure your experience</p>
+            </header>
 
-        <output class="menuItem">Map height</output>
-        <input id="inputMapHeight" class="menuItem slider" type="range" min="30" max="80" value="75">
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label for="inputMapHeight">Map Height</label>
+                    <div class="input-control">
+                        <input id="inputMapHeight" class="slider" type="range" min="30" max="80" value="75">
+                        <output>75</output>
+                    </div>
+                </div>
 
-        <output class="menuItem">Map width</output>
-        <input id="inputMapWidth" class="menuItem slider" type="range" min="30" max="95" value="95">
+                <div class="setting-item">
+                    <label for="inputMapWidth">Map Width</label>
+                    <div class="input-control">
+                        <input id="inputMapWidth" class="slider" type="range" min="30" max="95" value="95">
+                        <output>95</output>
+                    </div>
+                </div>
 
-        <output class="menuItem">Time to grow</output>
-        <input id="inputTimeToGrow" class="menuItem slider" type="range" min="1" max="20" value="10">
+                <div class="setting-item">
+                    <label for="inputTimeToGrow">Grow Speed</label>
+                    <div class="input-control">
+                        <input id="inputTimeToGrow" class="slider" type="range" min="1" max="20" value="10">
+                        <output>10</output>
+                    </div>
+                </div>
 
-        <output class="menuItem">Natural generation</output>
-        <input id="inputNaturalGen" class="menuItem slider" type="range" min="1" max="100" value="70">
+                <div class="setting-item">
+                    <label for="inputNaturalGen">Natural Spawn</label>
+                    <div class="input-control">
+                        <input id="inputNaturalGen" class="slider" type="range" min="1" max="100" value="70">
+                        <output>70</output>
+                    </div>
+                </div>
 
-        <output class="menuItem">Enable sounds</output>
+                <div class="setting-item">
+                    <label for="inputTileSize">Tile Size</label>
+                    <div class="input-control">
+                        <input id="inputTileSize" class="slider" type="range" min="16" max="64" value="32" step="8">
+                        <output>32</output>
+                    </div>
+                </div>
+            </div>
 
-        <label class="container menuItem">
-            <input id="inputEnableSounds" type="checkbox" />
-            <span class="checkmark"></span>
-        </label>
+            <div class="toggles-container">
+                <div class="toggle-item">
+                    <span>Enable Sounds</span>
+                    <label class="switch">
+                        <input id="inputEnableSounds" type="checkbox">
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
 
-        <output class="menuItem">Infinite resources</output>
+                <div class="toggle-item">
+                    <span>Infinite Resources</span>
+                    <label class="switch">
+                        <input id="inputInfiniteRes" type="checkbox" checked>
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+            </div>
 
-        <label class="container menuItem">
-            <input id="inputInfiniteRes" type="checkbox" checked />
-            <span class="checkmark"></span>
-        </label>
-
-        <button id="buttonPlay" class="menuItem button buttonPlay">Play</button>
+            <button id="buttonPlay" class="button-start">START FARMING</button>
+        </div>
     </div>
 
     <div id="menus"></div>

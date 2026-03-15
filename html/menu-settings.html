@@ -1,9 +1,22 @@
-<h1>Settings</h1>
+<header class="menu-header">
+    <h1>Settings</h1>
+    <p>Adjust your preferences</p>
+</header>
 
-<output class="menuItem">Sound volume</output>
-<input class="menuItem slider" type="range" step="0.1" min="0" max="1" value="0.2">
+<div class="settings-grid" style="grid-template-columns: 1fr;">
+    <div class="setting-item">
+        <label>Sound Volume</label>
+        <div class="input-control">
+            <input class="slider" type="range" step="0.1" min="0" max="1" value="0.2">
+            <output>0.2</output>
+        </div>
+    </div>
+</div>
 
-<button class="menuItem button buttonApply">Apply</button>
+<button class="menuItem button buttonApply" style="width: 100%; margin-top: 10px;">Apply Changes</button>
 
-<a href="https://github.com/AliHaine/GameFarmerJS" target="_blank">Project GitHub </a>
+<div style="margin-top: 20px; text-align: center;">
+    <a href="https://github.com/Laurence-Wu/GameFarmerJS" target="_blank" style="color: var(--color-accent); text-decoration: none; font-size: 12px; opacity: 0.7;">View Project on GitHub</a>
+</div>
+
 <div class="buttonClose"></div>

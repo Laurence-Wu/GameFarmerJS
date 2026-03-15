@@ -6,29 +6,61 @@ import Player from "../../game/player.js";
 export default class MenuShop extends Menu {
     async init() {
         await super.init();
-        const div = document.createElement("div");
-        div.classList.add("shopItem");
+        this.renderShopItems();
+    }
 
-        const button = document.createElement("button");
-        button.classList.add("menuItem");
-        button.classList.add("button");
-        button.classList.add("buttonMore");
-        button.textContent = "More";
+    renderShopItems() {
+        const shopContainer = this.menuHtmlContent.getElementsByClassName("shopItems")[0];
+        shopContainer.innerHTML = "";
 
-        div.append(button);
-
-        Element.elements.filter((element) => element.haveEconomy()).forEach((element) => {
-            const newDiv = div.cloneNode(true);
-            newDiv.prepend(element.getImage().cloneNode(true));
-            this.menuHtmlContent.getElementsByClassName("shopItems")[0].appendChild(newDiv);
+        // Elements
+        Element.elements.filter(el => el.haveEconomy()).forEach(element => {
+            shopContainer.appendChild(this.createShopItemCard(element));
         });
 
-        Resource.resources.forEach((resource) => {
+        // Resources
+        Resource.resources.forEach(resource => {
             if (resource.haveEconomy()) {
-                div.prepend(resource.getImage().cloneNode(true));
-                this.menuHtmlContent.getElementsByClassName("shopItems")[0].appendChild(div);
+                shopContainer.appendChild(this.createShopItemCard(resource));
             }
         });
+    }
+
+    createShopItemCard(item) {
+        const card = document.createElement("div");
+        card.classList.add("shopItem");
+
+        // Image
+        const img = item.getImage().cloneNode(true);
+        card.appendChild(img);
+
+        // Title
+        const title = document.createElement("div");
+        title.classList.add("shopItemTitle");
+        title.textContent = item.displayName || item.getElementId() || "Item";
+        card.appendChild(title);
+
+        // Price info
+        const priceInfo = document.createElement("div");
+        priceInfo.classList.add("shopItemPrice");
+        
+        const moneyIcon = document.createElement("img");
+        moneyIcon.src = "assets/image/icon/money_icon.png";
+        
+        const priceValue = document.createElement("span");
+        priceValue.textContent = `${item.getBuyPrice() || item.getSellPrice()}`;
+        
+        priceInfo.appendChild(moneyIcon);
+        priceInfo.appendChild(priceValue);
+        card.appendChild(priceInfo);
+
+        // More Button
+        const button = document.createElement("button");
+        button.classList.add("menuItem", "button", "buttonMore");
+        button.textContent = "More";
+        card.appendChild(button);
+
+        return card;
     }
 
     build() {

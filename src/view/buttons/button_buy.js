@@ -13,17 +13,19 @@ export default class ButtonBuy extends Button {
     executor(eventTarget) {
         const parentElement = eventTarget.parentElement;
         const buyQuantity = parseInt(parentElement.querySelector("#buyQuantity").value);
-        const buyPrice = parentElement.querySelector("#buyPrice").value * buyQuantity;
+        // The output value is already total (unit price * quantity)
+        const buyPrice = parseInt(parentElement.querySelector("#buyPrice").value);
         const player = Player.player;
         if (!player.isMoneyEnough(buyPrice)) {
             displayMessageToAlertBox(ENG_LANG.NO_ENOUGH_MONEY);
             return;
         }
         player.removeMoney(buyPrice);
-        Menu.getMenu("menu-shop.html").build().displayMenu();
+        
         let buyElement = Element.getElementFromId(parentElement.parentElement.querySelector("#imgElement img").id);
         if (!buyElement)
             buyElement = Resource.getResource(parentElement.parentElement.querySelector("#imgElement img").id);
         buyElement.updateQuantity(buyQuantity);
+        Menu.getMenu("menu-shop.html").build().displayMenu();
     }
 }

@@ -1,156 +1,238 @@
 .menu {
-	background-color: #8842d5;
+	background-color: var(--color-primary);
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: absolute;
-	border-radius: 30px;
-	border: 5px solid #b580ed;
-	border-top: 50px;
-	border-bottom: 50px;
-	padding: 10px;
+	border-radius: var(--radius-xl);
+	border: var(--border-thick) solid var(--color-primary-light);
+	padding: 25px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center; /* Horizontally center the items */
-	align-items: center; /* Vertically center the items */
-	font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px;
-	font-weight: 500;
-	color: #FFFFFF;
+	align-items: center;
+	font-family: var(--font-family);
+	color: var(--text-main);
+	box-shadow: 0 10px 0 rgba(0, 0, 0, 0.15);
+	min-width: 420px;
 }
 
-.menuItem {
-	margin: 5px;
+.menu-initial-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: var(--bg-overlay);
+	backdrop-filter: blur(5px);
+	z-index: 1000;
+}
+
+.menu-header {
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.menu-header h1 {
+	margin: 0;
+	font-size: 32px;
+	color: var(--color-accent);
+	text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.menu-header p {
+	margin: 5px 0 0;
+	opacity: 0.8;
+	font-size: 14px;
+}
+
+.settings-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+.setting-item {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.setting-item label {
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+.input-control {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.input-control output {
+	font-weight: bold;
+	color: var(--color-accent);
+	min-width: 25px;
 }
 
 .slider {
 	-webkit-appearance: none;
-	width: 75%;
-	height: 15px;
-	border-radius: 5px;
-	background: #d3d3d3;
+	width: 100%;
+	height: 6px;
+	border-radius: 3px;
+	background: var(--bg-input);
 	outline: none;
-	opacity: 0.7;
-	-webkit-transition: .2s;
 	transition: opacity .2s;
 }
 
 .slider::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	appearance: none;
-	width: 25px;
-	height: 25px;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
-	background: #b580ed;
+	background: var(--color-accent);
+	cursor: pointer;
+	box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.slider::-moz-range-thumb {
-	width: 25px;
-	height: 25px;
-	border-radius: 50%;
-	background: #b580ed;
+.toggles-container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	width: 100%;
+	margin-bottom: 30px;
+	background: rgba(0,0,0,0.1);
+	padding: 15px;
+	border-radius: var(--radius-md);
 }
 
-/* Customize the label (the container) */
-.container {
+.toggle-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* Modern Toggle Switch */
+.switch {
 	position: relative;
-	padding-left: 5%;
-	cursor: pointer;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
 }
 
-/* Hide the browser's default checkbox */
-.container input {
+.switch input { 
 	opacity: 0;
-	cursor: pointer;
-	height: 0;
 	width: 0;
+	height: 0;
 }
 
-/* Create a custom checkbox */
-.checkmark {
+.switch-slider {
 	position: absolute;
+	cursor: pointer;
 	top: 0;
 	left: 0;
-	height: 15px;
-	width: 15px;
-	background-color: #ccc;
+	right: 0;
+	bottom: 0;
+	background-color: var(--bg-input);
+	transition: .4s;
+	border-radius: 24px;
 }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-	background-color: #b580ed;
-}
-
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-	background-color: #b580ed;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.switch-slider:before {
+	position: absolute;
 	content: "";
-	display: none;
+	height: 18px;
+	width: 18px;
+	left: 3px;
+	bottom: 3px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
 }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-	display: block;
-	margin-left: 4px;
+input:checked + .switch-slider {
+	background-color: var(--color-success);
 }
 
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-	left: 19px;
-	top: 5px;
-	width: 4px;
-	height: 9px;
-	border: solid white;
-	border-width: 0 3px 3px 0;
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
+input:checked + .switch-slider:before {
+	transform: translateX(20px);
+}
+
+.button-start {
+	width: 100%;
+	padding: 16px;
+	border: var(--border-thick) solid var(--color-primary-dark);
+	border-radius: var(--radius-md);
+	background: var(--color-accent);
+	color: var(--color-primary-dark);
+	font-size: 20px;
+	font-weight: 900;
+	cursor: pointer;
+	transition: all 0.1s;
+	box-shadow: 0 6px 0 var(--color-primary-dark);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.button-start:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 0 var(--color-primary-dark);
+}
+
+.button-start:active {
+	transform: translateY(4px);
+	box-shadow: 0 2px 0 var(--color-primary-dark);
 }
 
 .button {
-	border-radius: 8px;
-	border-style: none;
-	box-sizing: border-box;
-	color: #FFFFFF;
+	border-radius: var(--radius-md);
+	border: var(--border-thick) solid rgba(0,0,0,0.15);
+	color: var(--text-main);
 	cursor: pointer;
-	font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--font-family);
 	font-size: 14px;
-	font-weight: 500;
-	height: 40px;
-	line-height: 20px;
-	list-style: none;
-	outline: none;
-	padding: 10px 16px;
-	background-color: #b580ed;
+	font-weight: 700;
+	padding: 12px 20px;
+	background-color: var(--color-primary-light);
 	text-align: center;
-	text-decoration: none;
-	transition: color 100ms;
-	vertical-align: baseline;
-	touch-action: manipulation;
+	transition: all 0.1s;
+	box-shadow: 0 4px 0 rgba(0,0,0,0.2);
 }
 
-.button:hover,
-.button:focus {
-	color: #8842d5;
+.button:hover {
+	background-color: var(--color-accent);
+	color: var(--color-primary-dark);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+}
+
+.button:active {
+	transform: translateY(2px);
+	box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 }
 
 .buttonClose {
-	content: "sadasdas";
 	position: absolute;
-	top: 3px;
-	right: 10px;
+	top: 15px;
+	right: 20px;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .buttonClose:after {
 	content: "\2716";
-	color: #b580ed;
-	font-size: 15px;
+	color: var(--color-primary-light);
+	font-size: 20px;
 }
 
 .buttonClose:hover:after {
-	color: #FFFFFF;
+	color: var(--color-accent);
 }
