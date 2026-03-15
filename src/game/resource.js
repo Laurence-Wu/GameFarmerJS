@@ -48,7 +48,14 @@ export default class Resource {
 		updateResourceBarNumber(this, this.quantity)
 	}
 
-	getResourceFromId(id) {}
+	/**
+	 * Get a resource by its ID from the resources map.
+	 * @param {string} id - The resource ID (image id)
+	 * @returns {Resource|undefined} The resource if found, undefined otherwise
+	 */
+	static getResourceFromId(id) {
+		return Resource.resources.get(id);
+	}
 
 	getResourceId() {
 		return this.image.id;
