@@ -1,29 +1,29 @@
-# GameFarm Sprint: Extract Ground Types Registration to Separate Module
+# GameFarm Sprint: Extract Resource Registration to Separate Module
 
 **Type**: code
-**Target file(s)**: src/game_manager/registry.js, src/game_manager/ground_types.js (new)
-**Issue**: The ground types registration block in registry.js can be extracted to a dedicated module for better code organization and complete modularization of registerElements().
-**Root cause**: Ground types registration logic is embedded inline within registerElements() instead of a dedicated module.
+**Target file(s)**: src/game_manager/registry.js, src/game_manager/resources.js (new)
+**Issue**: The resource registration in registerResources() can be extracted to a dedicated module for complete modularization of all registration functions.
+**Root cause**: Resource registration logic is embedded inline within registerResources() instead of a dedicated module.
 **Priority**: P3 (code quality improvement, no functional bug)
 
 ## Acceptance Criteria
-1. A new file `src/game_manager/ground_types.js` is created that exports a `registerGroundTypes()` function
-2. The `registerGroundTypes()` function contains all 4 ground type registration calls
-3. `registry.js` imports and calls `registerGroundTypes()` instead of inline registration
-4. All ground types (grass, grass_side, grass_corner, grass_farm) are still registered with correct actions
-5. No changes to ground type behavior or appearance
+1. A new file `src/game_manager/resources.js` is created that exports a `registerResources()` function
+2. The `registerResources()` function contains all 5 resource registration calls (Fruit, Seed, Rock, Wood, Leaf)
+3. `registry.js` imports and calls the new `registerResources()` from resources.js
+4. All resources are still registered with correct properties (display names, prices)
+5. No changes to resource behavior or appearance
 
 ## Files to Touch
-- src/game_manager/ground_types.js (new)
+- src/game_manager/resources.js (new)
 - src/game_manager/registry.js
 
 ## Estimated Scope
 - Lines added: ~15
-- Lines removed: ~5
-- Total delta: ~20 (well under 150 limit)
+- Lines removed: ~7
+- Total delta: ~22 (well under 150 limit)
 
 ## Branch
-feat/gamefarm-ground-types-module
+feat/gamefarm-resources-module
 
 ## Sprint Type
 code
@@ -33,11 +33,11 @@ code
 |-------|----------------|
 | Large max_func_len in game_loader.js (896) | Out of scope - not touched in this sprint |
 | Test coverage addition | Deferred until more critical code quality issues addressed |
-| Resource registration extraction | Focused on ground types only as bounded slice |
+| Toolbar category extraction | Focused on resources only as bounded slice |
 
 ## Implementation Notes
-- Approach: Extracted ground types registration logic into a dedicated src/game_manager/ground_types.js module for better separation of concerns and complete modularization of registerElements()
-- Files changed: src/game_manager/ground_types.js (new, 16 lines), src/game_manager/registry.js (5 lines removed, 2 lines added)
-- Lines added: 18, lines removed: 5, total delta: 13
+- Approach: Extracted resource registration logic into a dedicated src/game_manager/resources.js module and re-exported from registry.js for backward compatibility
+- Files changed: src/game_manager/resources.js (new, 14 lines), src/game_manager/registry.js (7 lines removed, 3 lines added)
+- Lines added: 17, lines removed: 7, total delta: 10
 - Deferred (if any): None - all acceptance criteria met
-- Import chain verified: yes (ground_types.js imports IMG, ElementGround, ActionPlowe, ActionUnplowe; registry.js imports registerGroundTypes)
+- Import chain verified: yes (resources.js imports IMG_ICON, Resource; registry.js imports and re-exports registerResources)

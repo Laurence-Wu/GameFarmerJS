@@ -6,7 +6,7 @@
 | **Version** | v1 |
 | **Card** | card_06 |
 | **Priority** | high |
-| **Timestamp** | 2026-03-15T03:28:06.619867 |
+| **Timestamp** | 2026-03-15T03:17:39.567674 |
 | **Tags** | validation, gate, review, quality |
 | **Branches** | `fail`→`card_04` |
 

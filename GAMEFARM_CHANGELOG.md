@@ -87,3 +87,12 @@
 - **Lines changed**: 32 added, 17 removed
 - **Branch**: feat/gamefarm-static-objects-module (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 11] 2026-03-15 — Ground types registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/ground_types.js (new), src/game_manager/registry.js
+- **Change**: Extract ground types registration logic to dedicated ground_types.js module
+- **Assets added**: none
+- **Lines changed**: 18 added, 5 removed
+- **Branch**: feat/gamefarm-ground-types-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
