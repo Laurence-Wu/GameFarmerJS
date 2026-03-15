@@ -69,3 +69,12 @@
 - **Lines changed**: 26 added, 15 removed
 - **Branch**: feat/gamefarm-fence-module (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 9] 2026-03-15 — Crop registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/crops.js (new), src/game_manager/registry.js
+- **Change**: Extract crop registration logic to dedicated crops.js module
+- **Assets added**: none
+- **Lines changed**: 22 added, 9 removed
+- **Branch**: feat/gamefarm-crops-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
