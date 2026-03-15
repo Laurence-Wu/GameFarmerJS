@@ -37,6 +37,19 @@ export function registerStaticObjects() {
         .setDisplayName("Bush Dark")
         .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
 
+    // Mushroom and Hay Bale (Decoration category)
+    (new ElementDefault(IMG.MUSHROOM0))
+        .setNaturalSpawnChance(10)
+        .setLootable(Resource.getResource("leaf"))
+        .setDisplayName("Mushroom")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
+    (new ElementDefault(IMG.HAYBALE0))
+        .setNaturalSpawnChance(10)
+        .setLootable(Resource.getResource("fruit"))
+        .setDisplayName("Hay Bale")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
     // Trees
     (new ElementDefault(IMG.TREE0, new ActionPrune()))
         .setNaturalSpawnChance(20)
