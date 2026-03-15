@@ -36,4 +36,10 @@ code
 | Asset coverage gap P2 | Requires asset creation, not pure code fix; score=2 or 3 |
 | Typo in lang file P3 | Trivial; can be fixed ad-hoc; score=1 |
 | Magic number 0.55 P3 | Trivial; can be fixed ad-hoc; score=1 |
-| getResourceFromId stub P3 | Trivial; can be fixed ad-hoc; score=1 |
+
+## Implementation Notes
+- Approach: Extracted `renderPriceWidget(container, item)` function to new `src/view/menus/menu_shop_utils.js` to deduplicate price icon + value building
+- Files changed: src/view/menus/menu_shop_utils.js (+14 lines new), src/view/menus/menu_shop.js (-11 lines)
+- Lines added: 15, lines removed: 11, total delta: 26
+- Deferred: none (MenuShopMore doesn't have same pattern - uses input fields instead)
+- Import chain verified: yes
