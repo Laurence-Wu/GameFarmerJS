@@ -1,12 +1,12 @@
 # GameFarm Evolve Backlog
 
-Updated: 2026-03-15 (cycle 14)
+Updated: 2026-03-15 (cycle 15)
 
 | Priority | File(s) | Issue | Effort estimate |
 |----------|---------|-------|-----------------|
 | (empty) | All P1/P2/P3 issues resolved | Ready for new feature requests | - |
 
-**Notes**: All known issues from the original audit have been addressed through cycles 1-14:
+**Notes**: All known issues from the original audit have been addressed through cycles 1-15:
 - AbstractHarvestAction (cycle 1)
 - ItemRegistry.getItem (cycle 2)
 - renderPriceWidget (cycle 3)
@@ -21,5 +21,6 @@ Updated: 2026-03-15 (cycle 14)
 - Resources registration module extraction (cycle 12)
 - Toolbar categories registration module extraction (cycle 13)
 - Bush decoration assets (cycle 14)
+- Mushroom and hay bale decorations (cycle 15)
 
 **Backlog status**: Empty - all P1/P2/P3 issues resolved. Codebase health: 10/10.
