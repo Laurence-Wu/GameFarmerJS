@@ -1,29 +1,28 @@
-# GameFarm Sprint: Extract renderPriceWidget Helper for Shop Menus
+# GameFarm Sprint: Dynamic Toolbar Category Registration
 
 **Type**: code
-**Target file(s)**: src/view/menus/menu_shop_utils.js (new), src/view/menus/menu_shop.js, src/view/menus/menu_shop_more.js
-**Issue**: MenuShop and MenuShopMore each build price icon + value span inline with no shared renderPriceWidget() helper
-**Root cause**: Price widget rendering logic duplicated across two menu files instead of extracted to shared utility
+**Target file(s)**: src/view/bar.js, src/game_manager/registry.js
+**Issue**: TOOLBAR_CATEGORY is hardcoded with only CROP and FENCE, requiring edits to both bar.js and registry.js to add new tabs
+**Root cause**: Toolbar categories defined as static const object instead of dynamic registry pattern
 **Priority**: P2
 
 ## Acceptance Criteria
-1. `renderPriceWidget(container, item, type)` function exists in new `src/view/menus/menu_shop_utils.js`
-2. `MenuShop` and `MenuShopMore` import and use `renderPriceWidget()` instead of inline price building
-3. No change in runtime behavior (price widgets render identically)
-4. Total delta ≤ 150 lines across ≤ 3 files
+1. `TOOLBAR_CATEGORY` is replaced with a `registerToolbarCategory(name, element)` function that dynamically registers categories
+2. Existing CROP and FENCE categories are registered via the new function
+3. Adding a new category (e.g., DECORATION) requires only calling `registerToolbarCategory` in registry.js without modifying bar.js
+4. All existing toolbar functionality (mouseDownToolBar listener) continues to work for registered categories
 
 ## Files to Touch
-- src/view/menus/menu_shop_utils.js (new file with renderPriceWidget utility)
-- src/view/menus/menu_shop.js (use renderPriceWidget)
-- src/view/menus/menu_shop_more.js (use renderPriceWidget)
+- src/view/bar.js (refactor TOOLBAR_CATEGORY to dynamic registry)
+- src/game_manager/registry.js (register CROP and FENCE via new pattern)
 
 ## Estimated Scope
-- Lines added: ~15 (renderPriceWidget function + imports)
-- Lines removed: ~10 (duplicated inline price building in 2 menu files)
-- Total delta: ~25 (≤ 150 ✓)
+- Lines added: ~25
+- Lines removed: ~10
+- Total delta: ~35 (≤ 150 ✓)
 
 ## Branch
-feat/gamefarm-price-widget-utils
+feat/gamefarm-toolbar-category-registry
 
 ## Sprint Type
 code
@@ -31,15 +30,19 @@ code
 ## Skipped Candidates
 | Issue | Reason skipped |
 |-------|----------------|
-| Harvest logic P1 | Already addressed in cycle 1 with AbstractHarvestAction - backlog item stale |
-| TOOLBAR_CATEGORY hardcoded P2 | Lower score (2 vs 4); requires UI/registry coordination |
-| Asset coverage gap P2 | Requires asset creation, not pure code fix; score=2 or 3 |
-| Typo in lang file P3 | Trivial; can be fixed ad-hoc; score=1 |
-| Magic number 0.55 P3 | Trivial; can be fixed ad-hoc; score=1 |
+| #8 DECORATION category missing | Will be naturally unblocked by this sprint; can be added in next cycle |
+| #6 Asset coverage gap | Asset addition sprint; defer until after P2 structural fixes complete |
+| #5 Typo in lang file | Low priority P3; can be bundled with next small fix |
+| #9 getResourceFromId stub | Low priority P3; requires design decision on implementation |
+| #10 Magic number in map.js | Low priority P3; trivial fix but not blocking |
 
 ## Implementation Notes
-- Approach: Extracted `renderPriceWidget(container, item)` function to new `src/view/menus/menu_shop_utils.js` to deduplicate price icon + value building
-- Files changed: src/view/menus/menu_shop_utils.js (+14 lines new), src/view/menus/menu_shop.js (-11 lines)
-- Lines added: 15, lines removed: 11, total delta: 26
-- Deferred: none (MenuShopMore doesn't have same pattern - uses input fields instead)
-- Import chain verified: yes
+- Approach: Introduced dynamic toolbar category registry using Map-based pattern with `registerToolbarCategory()`, `getToolbarCategory()`, and `getToolbarCategories()` exports. Legacy `TOOLBAR_CATEGORY` kept for backward compatibility.
+- Files changed: 
+  - src/view/bar.js (+23 lines: new registry functions + auto-registration)
+  - src/game_manager/registry.js (+4 lines: import + registration calls, updated fences/crops to use getToolbarCategory)
+  - src/game_manager/game_loader.js (+2 lines: updated imports and listener attachment)
+- Lines added: 29, lines removed: 6, total delta: 35
+- Deferred: None
+- Import chain verified: yes (syntax check passed with node --check)
+![next]!

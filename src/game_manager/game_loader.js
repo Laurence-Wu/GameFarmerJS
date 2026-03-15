@@ -9,7 +9,7 @@ import * as Listeners from "./listeners.js";
 import MenuShop from "../view/menus/menu_shop.js";
 import MenuShopMore from "../view/menus/menu_shop_more.js";
 import Player from "../game/player.js";
-import {TOOLBAR_CATEGORY} from "../view/bar.js";
+import {getToolbarCategory} from "../view/bar.js";
 import defineGameSettings from "./game_settings.js";
 import Map from "../game/map.js";
 import { registerResources, registerElements } from "./registry.js";
@@ -90,6 +90,6 @@ function loadListeners() {
     document.addEventListener('mousemove', Listeners.mouseMove);
     document.addEventListener("mousedown", Listeners.mouseDown);
 
-    TOOLBAR_CATEGORY.CROP.addEventListener("mousedown", Listeners.mouseDownToolBar);
-    TOOLBAR_CATEGORY.FENCE.addEventListener("mousedown", Listeners.mouseDownToolBar);
+    getToolbarCategory('CROP').addEventListener("mousedown", Listeners.mouseDownToolBar);
+    getToolbarCategory('FENCE').addEventListener("mousedown", Listeners.mouseDownToolBar);
 }
