@@ -105,3 +105,21 @@
 - **Lines changed**: 17 added, 7 removed
 - **Branch**: feat/gamefarm-resources-module (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 13] 2026-03-15 — Toolbar categories registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/toolbar_categories.js (new), src/game_manager/registry.js
+- **Change**: Extract toolbar categories registration logic to dedicated toolbar_categories.js module for complete modularization
+- **Assets added**: none
+- **Lines changed**: 12 added, 4 removed
+- **Branch**: feat/gamefarm-toolbar-categories-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 14] 2026-03-15 — Add bush decoration assets
+- **Sprint type**: asset
+- **Target**: src/game_manager/game_assets.js, src/game_manager/static_objects.js
+- **Change**: Register 3 bush decoration elements (bush0, bush1, bush2) with DECORATION toolbar category
+- **Assets added**: bush0.png, bush1.png, bush2.png (3 placeholder assets, 48x48px)
+- **Lines changed**: 23 added, 0 removed
+- **Branch**: feat/gamefarm-decoration-bush-assets (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
