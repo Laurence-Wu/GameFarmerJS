@@ -1,14 +1,13 @@
-# Task: card_06
+# Task: card_08
 
 | Field | Value |
 |---|---|
 | **Workflow** | gamefarm_evolve |
 | **Version** | v1 |
-| **Card** | card_06 |
-| **Priority** | high |
-| **Timestamp** | 2026-03-15T03:09:44.865256 |
-| **Tags** | validation, gate, review, quality |
-| **Branches** | `fail`→`card_04` |
+| **Card** | card_08 |
+| **Priority** | normal |
+| **Timestamp** | 2026-03-15T03:00:55.315528 |
+| **Tags** | backlog, reprioritize, loop-reset, hygiene |
 
 ---
 
@@ -84,108 +83,95 @@ pip freeze > requirements.txt   # to record dependencies
 
 ## Current Task
 
-Think about this step by step. Break the problem down into smaller sub-tasks and address each one carefully.
-
-## card_06 · Validation Gate
+## card_08 · Backlog Refresh and Loop Reset
 
 Workspace: `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS`
 
-This is a **hard gate**. Every FAIL must be fixed before writing the next signal.
+---
+
+### Phase 1 — Review the Cycle
+
+1. Read `GAMEFARM_CHANGELOG.md` (last 3 entries) — understand what was improved.
+2. Read `GAMEFARM_AUDIT.md` — which issues remain FOUND but unaddressed?
+3. Read `GAMEFARM_ASSETS.md` if it exists and is not a SKIPPED entry — note staged-but-unintegrated assets.
 
 ---
 
-### Automated Checks
+### Phase 2 — Rewrite GAMEFARM_BACKLOG.md
 
-**Check 1 — Diff size gate**
+Write a fresh `GAMEFARM_BACKLOG.md` with **at most 10 items**, ranked by priority.
+
+Priority definitions:
+- **P1**: DRY violations causing divergent behavior (harvest logic, ItemRegistry), broken stubs
+- **P2**: Content/usability gaps (missing toolbar categories, crop variety, price display duplication)
+- **P3**: Polish (typos, magic numbers, empty stubs)
+
+Format:
+```markdown
+# GameFarm Evolve Backlog
+
+Updated: YYYY-MM-DD (cycle N)
+
+| Priority | File(s) | Issue | Effort estimate |
+|----------|---------|-------|-----------------|
+| P1 | src/element/element_actions/ (3 files) | Harvest logic not sharing AbstractHarvestAction | ~40 lines |
+| P1 | src/view/buttons/ (3 files) | Element.getElementFromId duplicated; needs ItemRegistry.getItem | ~25 lines |
+| P2 | src/view/bar.js + registry.js | TOOLBAR_CATEGORY hardcoded; DECORATION category missing | ~15 lines |
+| P2 | src/view/menus/ (2 files) | Price display logic duplicated between MenuShop and MenuShopMore | ~20 lines |
+| P2 | src/game_manager/registry.js | Only 5 crop types; add carrot/corn/tomato from scraped assets | ~10 lines |
+| P3 | src/game_manager/game_lang.js | Typo: "sqaure" should be "square" | 1 line |
+| P3 | src/game/map.js | Magic number 0.55 (island coverage) needs named constant | 2 lines |
+| P3 | src/game/resource.js | Empty stub getResourceFromId(id) should be removed or implemented | 2 lines |
+```
+
+**Seed rule** (cycle 1 only): if `GAMEFARM_BACKLOG.md` does not yet exist, seed from the Known Issue Checklist in `GAMEFARM_AUDIT.md`, minus any item addressed this cycle.
+
+**Promotion rule**: any issue appearing in the backlog for 3+ cycles without being selected MUST be promoted one level (P3→P2→P1) or annotated `[DEFERRED: reason]`.
+
+**Asset opportunity rule**: if `GAMEFARM_ASSETS.md` lists staged-but-unintegrated assets, add a P2 item: `Integrate staged <name> assets into registry.js`.
+
+---
+
+### Phase 3 — Clean Up Sprint Artifacts
+
+Delete one-cycle artifact files (use `rm` or delete directly):
+- `GAMEFARM_SPRINT.md`
+- `GAMEFARM_REVIEW.md`
+- `GAMEFARM_ASSETS.md` — ONLY if assets were fully integrated this cycle; retain if staged assets remain unintegrated
+
+Do NOT delete: `GAMEFARM_AUDIT.md`, `GAMEFARM_CHANGELOG.md`, `GAMEFARM_BACKLOG.md`.
+
+---
+
+### Phase 4 — Workspace Sanity Check
+
 ```bash
 cd C:\Users\MSI\Desktop\WinCoding\GameFarmerJS
-git diff main...HEAD --stat
+git status
+git log --oneline -5
 ```
-PASS: total lines added + removed ≤ 150. FAIL: reduce scope before continuing.
 
-**Check 2 — Files touched count**
-PASS: ≤ 4 files. FAIL: revert excess changes.
+The working tree must be clean. If stray uncommitted changes exist:
+- Stage and commit any legitimate source file missed in card_07
+- Discard accidental modifications: `git checkout -- <file>`
 
-**Check 3 — Import path integrity**
-```bash
-git diff main...HEAD --name-only
-```
-For each modified `.js` file, verify every `import` statement resolves to a file that exists on disk.
-PASS: all import paths exist. FAIL: fix broken imports.
-
-**Check 4 — No debug artifacts**
-```bash
-git diff main...HEAD
-```
-Search for new `console.log(`, `debugger`, `alert(` in changed lines of production code.
-PASS: none found (pre-existing `console.log` in map.js is OK — do NOT flag it). FAIL: remove new ones.
-
-**Check 5 — No secrets or credentials**
-Search diff for: `password`, `api_key`, `token =`, `Bearer`, `-----BEGIN`.
-PASS: none found.
-
-**Check 6 — Asset file existence (asset sprints only)**
-For each `newImage(...)` call added in `game_assets.js`, verify the referenced PNG exists on disk.
-PASS: every file exists. FAIL: remove registration or download missing asset.
+Confirm the merge commit from card_07 appears on top of `git log`.
 
 ---
 
-### Manual Checklist
+### Phase 5 — Self-Evolution Score
 
-Record PASS / FAIL / N-A for each:
+Compute cycle health delta:
+- `N_before` = P1 count from `GAMEFARM_AUDIT.md`
+- `N_after` = P1 count in the new `GAMEFARM_BACKLOG.md`
+- `delta = N_before - N_after` (positive = improved)
 
-7. All acceptance criteria from `GAMEFARM_SPRINT.md` are satisfied (check each one explicitly).
-8. The duplicated pattern no longer appears in old locations. Grep to confirm — e.g., for ItemRegistry, `Element.getElementFromId` should return zero matches in `button_buy.js`, `button_sell.js`, `button_more.js`.
-9. New abstractions follow conventions: `snake_case` file names, `PascalCase` class names.
-10. No bare catch-all error handling added without a meaningful comment.
-11. No commented-out code blocks added.
-12. `TOOLBAR_CATEGORY` references use the exported constant from `src/view/bar.js`, not raw DOM queries.
-13. For asset sprints: element ID in `game_assets.js` is consistent with what `getElementId()` will return.
-
----
-
-### Fix Loop
-
-For each FAIL: fix in place on the feature branch, re-read the changed code, confirm PASS.
-Do NOT write any next signal while any check is FAIL.
-
----
-
-### Write GAMEFARM_REVIEW.md
-
+Append to `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS\ops_log.md`:
 ```
-# GameFarm Review — Cycle N
-
-## Automated Checks
-| # | Check | Result | Notes |
-|---|-------|--------|-------|
-| 1 | Diff size | PASS/FAIL | N lines |
-| 2 | Files touched | PASS/FAIL | N files |
-| 3 | Import paths | PASS/FAIL | ... |
-| 4 | Debug artifacts | PASS/FAIL | ... |
-| 5 | Secrets | PASS/FAIL | ... |
-| 6 | Asset existence | PASS/FAIL/N-A | ... |
-
-## Manual Checklist
-| # | Item | Result | Notes |
-|---|------|--------|-------|
-| 7 | Acceptance criteria | PASS/FAIL | ... |
-| 8 | DRY pattern removed | PASS/FAIL/N-A | ... |
-| 9 | Naming conventions | PASS/FAIL | ... |
-| 10 | Error handling | PASS/FAIL | ... |
-| 11 | No dead code | PASS/FAIL | ... |
-| 12 | TOOLBAR_CATEGORY usage | PASS/FAIL/N-A | ... |
-| 13 | Element ID consistency | PASS/FAIL/N-A | ... |
-
-## Issues Found and Fixed
-<list any FAILs and the fix applied>
-
-## Final Verdict
-**APPROVED** or **NEEDS_REWORK**
+[YYYY-MM-DD HH:MM UTC] cycle N — <sprint type>: improved <scope>, P1 delta: <signed value>, next priority: <top backlog item>
 ```
 
-If verdict is **APPROVED**: write `![next]!`
-If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 for repair)
+Write `![next]!` when: backlog is written, artifacts are cleaned, workspace is git-clean, and `ops_log.md` is updated. The loop returns to card_01.
 
 > **GIT SAFETY — NON-INTERACTIVE MODE**: Some git commands open an interactive editor (e.g. `git commit` without `-m`, `git rebase -i`, `git merge` with conflicts). This will **block the agent session** and require manual intervention.
 
@@ -198,8 +184,6 @@ If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 fo
 
 > **HOUSEKEEPING REMINDER**: Before finishing this task, take a moment to DRY up any duplicated code you encounter and tidy the folder structure. Remove dead code, consolidate shared logic, and ensure clean imports.
 
-> **GIT BRANCH POLICY**: This task involves high-risk changes. Before making any modifications, create a new git branch from the current branch using: `git checkout -b card/<card_id>`. Commit your changes to this branch. Do NOT push or merge — leave that for review.
-
 ---
 **COMPLETION CHECKLIST** — before you finish:
 
@@ -211,4 +195,13 @@ If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 fo
      exclamation + open-bracket + the word **next** + close-bracket + exclamation
      (the seven characters  ! [ n e x t ] !  with no spaces — written into the file).
 3. Do **not** write the marker in chat — it must land in the file on disk.
+
+## Summary
+- **Files changed**: GAMEFARM_BACKLOG.md, ops_log.md; deleted GAMEFARM_SPRINT.md, GAMEFARM_REVIEW.md, GAMEFARM_ASSETS.md
+- **Commands run**: rm -f (artifact cleanup), git status, git log
+- **Tests**: n/a
+- **Git**: main (372e963) - 7 cycles complete, backlog empty
+- **Notes**: All P1/P2/P3 issues resolved. Backlog refreshed with empty state. Artifacts cleaned. Ops log updated.
+
+![next]!
 

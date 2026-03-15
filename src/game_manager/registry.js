@@ -8,6 +8,7 @@ import ActionUnplowe from "../element/element_actions/action_unplowe.js";
 import ActionPrune from "../element/element_actions/action_prune.js";
 import Element from "../element/element.js";
 import {registerToolbarCategory, getToolbarCategory} from "../view/bar.js";
+import {registerFences} from "./fences.js";
 
 // Register toolbar categories dynamically
 registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
@@ -48,18 +49,7 @@ export function registerElements() {
         .setBlockChild(Element.getElementFromId("trunk0"));
 
     // Fences
-    const fences = [
-        IMG.DOOR_WOOD_CLOSE, IMG.FENCE_WOOD_1, IMG.FENCE_WOOD_2, IMG.FENCE_WOOD_3,
-        IMG.FENCE_WOOD_4, IMG.FENCE_WOOD_5, IMG.FENCE_WOOD_6, IMG.FENCE_WOOD_7, IMG.FENCE_WOOD_8
-    ];
-
-    fences.forEach(img => {
-        const name = img.id.replace(/_/g, " ");
-        (new ElementDefault(img))
-            .setLootable(Resource.getResource("wood"))
-            .setDisplayName(name.charAt(0).toUpperCase() + name.slice(1))
-            .setHtmlDisplayCategory(getToolbarCategory('FENCE'));
-    });
+    registerFences();
 
     // Crops
     (new ElementCrop(IMG.MELON, "Melon", 1000, Resource.getResource("fruit"), 5)).setPrice(15, 500).setHtmlDisplayCategory(getToolbarCategory('CROP'));
