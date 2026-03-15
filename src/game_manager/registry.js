@@ -9,6 +9,7 @@ import ActionPrune from "../element/element_actions/action_prune.js";
 import Element from "../element/element.js";
 import {registerToolbarCategory, getToolbarCategory} from "../view/bar.js";
 import {registerFences} from "./fences.js";
+import {registerCrops} from "./crops.js";
 
 // Register toolbar categories dynamically
 registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
@@ -52,12 +53,5 @@ export function registerElements() {
     registerFences();
 
     // Crops
-    (new ElementCrop(IMG.MELON, "Melon", 1000, Resource.getResource("fruit"), 5)).setPrice(15, 500).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.WHEAT, "Wheat", 1500, Resource.getResource("fruit"), 5)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.SUGARCANE, "Sugarcane", 1300, Resource.getResource("fruit"), 3)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.EGGPLANT, "Eggplant", 300, Resource.getResource("fruit"))).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.CHILI, "Chili", 700, Resource.getResource("fruit"), 2)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.CARROT, "Carrot", 800, Resource.getResource("fruit"), 4)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.CORN, "Corn", 1200, Resource.getResource("fruit"), 3)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
-    (new ElementCrop(IMG.TOMATO, "Tomato", 600, Resource.getResource("fruit"), 5)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    registerCrops();
 }

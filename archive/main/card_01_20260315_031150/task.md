@@ -1,14 +1,13 @@
-# Task: card_06
+# Task: card_01
 
 | Field | Value |
 |---|---|
 | **Workflow** | gamefarm_evolve |
 | **Version** | v1 |
-| **Card** | card_06 |
+| **Card** | card_01 |
 | **Priority** | high |
-| **Timestamp** | 2026-03-15T03:13:47.476671 |
-| **Tags** | validation, gate, review, quality |
-| **Branches** | `fail`→`card_04` |
+| **Timestamp** | 2026-03-15T03:11:33.450174 |
+| **Tags** | audit, branch-hygiene, dry, metrics |
 
 ---
 
@@ -86,106 +85,75 @@ pip freeze > requirements.txt   # to record dependencies
 
 Think about this step by step. Break the problem down into smaller sub-tasks and address each one carefully.
 
-## card_06 · Validation Gate
+## card_01 · Branch Hygiene + Deep Audit
 
 Workspace: `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS`
 
-This is a **hard gate**. Every FAIL must be fixed before writing the next signal.
-
 ---
 
-### Automated Checks
+### Phase 1 — Branch Hygiene
 
-**Check 1 — Diff size gate**
 ```bash
 cd C:\Users\MSI\Desktop\WinCoding\GameFarmerJS
-git diff main...HEAD --stat
+git fetch --prune
+git branch -a
 ```
-PASS: total lines added + removed ≤ 150. FAIL: reduce scope before continuing.
 
-**Check 2 — Files touched count**
-PASS: ≤ 4 files. FAIL: revert excess changes.
-
-**Check 3 — Import path integrity**
-```bash
-git diff main...HEAD --name-only
-```
-For each modified `.js` file, verify every `import` statement resolves to a file that exists on disk.
-PASS: all import paths exist. FAIL: fix broken imports.
-
-**Check 4 — No debug artifacts**
-```bash
-git diff main...HEAD
-```
-Search for new `console.log(`, `debugger`, `alert(` in changed lines of production code.
-PASS: none found (pre-existing `console.log` in map.js is OK — do NOT flag it). FAIL: remove new ones.
-
-**Check 5 — No secrets or credentials**
-Search diff for: `password`, `api_key`, `token =`, `Bearer`, `-----BEGIN`.
-PASS: none found.
-
-**Check 6 — Asset file existence (asset sprints only)**
-For each `newImage(...)` call added in `game_assets.js`, verify the referenced PNG exists on disk.
-PASS: every file exists. FAIL: remove registration or download missing asset.
+For every local branch that is NOT `main`:
+1. Check if merged: `git branch --merged main`
+2. If merged AND remote tracking branch is gone: delete with `git branch -d <branch>`
+3. If NOT merged: check last commit date (`git log <branch> -1 --format="%ci"`). If older than 14 days, it is stale — delete with `git branch -D <branch>` and note it.
+4. Known stale branch to evaluate: `v2/refactored` — check if fully merged into main.
 
 ---
 
-### Manual Checklist
+### Phase 2 — File Metrics
 
-Record PASS / FAIL / N-A for each:
-
-7. All acceptance criteria from `GAMEFARM_SPRINT.md` are satisfied (check each one explicitly).
-8. The duplicated pattern no longer appears in old locations. Grep to confirm — e.g., for ItemRegistry, `Element.getElementFromId` should return zero matches in `button_buy.js`, `button_sell.js`, `button_more.js`.
-9. New abstractions follow conventions: `snake_case` file names, `PascalCase` class names.
-10. No bare catch-all error handling added without a meaningful comment.
-11. No commented-out code blocks added.
-12. `TOOLBAR_CATEGORY` references use the exported constant from `src/view/bar.js`, not raw DOM queries.
-13. For asset sprints: element ID in `game_assets.js` is consistent with what `getElementId()` will return.
+For each `.js` file under `src/`, record:
+- **line_count**, **func_count**, **max_func_len**, **todo_count**, **duplicate_patterns** (copy-pasted blocks > 4 lines)
 
 ---
 
-### Fix Loop
+### Phase 3 — Known Issue Checklist
 
-For each FAIL: fix in place on the feature branch, re-read the changed code, confirm PASS.
-Do NOT write any next signal while any check is FAIL.
+Check each item; record **FOUND**, **OK**, or **SKIP** with file + line:
+
+1. **Harvest logic duplication** — do `action_default.js`, `action_harvest.js`, and `action_prune.js` each contain `element.getResource().updateQuantity(...)` + `displayRightClick(...)` with no shared base class? → **FOUND P1** if yes.
+
+2. **ItemRegistry missing** — does `button_buy.js`, `button_sell.js`, and `button_more.js` each duplicate `Element.getElementFromId(id) || Resource.getResource(id)` with no shared `ItemRegistry.getItem(id)` utility? → **FOUND P1** if yes.
+
+3. **Toolbar categories hardcoded** — in `src/view/bar.js`, is `TOOLBAR_CATEGORY` a plain object with only `CROP` and `FENCE`, requiring edits to both `bar.js` and `registry.js` to add a new tab? → **FOUND P2** if yes.
+
+4. **Price display duplicated** — do `menu_shop.js` and `menu_shop_more.js` each build price icon + value span inline with no shared `renderPriceWidget()` helper? → **FOUND P2** if yes.
+
+5. **Typo in lang file** — does `src/game_manager/game_lang.js:4` contain `"sqaure"` misspelled? → **FOUND P3** if yes.
+
+6. **Asset coverage gap** — count distinct crop types in `src/game_manager/registry.js`. If < 8 → **FOUND P2** (scraping needed).
+
+7. **No AbstractHarvestAction** — does `src/element/element_action.js` define only the base `ElementAction` with no `AbstractHarvestAction` subclass? → **FOUND P1** if yes.
+
+8. **DECORATION category missing** — is there no `DECORATION` key in `TOOLBAR_CATEGORY` at `src/view/bar.js`? → **FOUND P2** if yes.
+
+9. **`getResourceFromId` is empty stub** — at `src/game/resource.js`, is `getResourceFromId(id) {}` an empty no-op? → **FOUND P3** if yes.
+
+10. **Magic number in map.js** — is `0.55` (island coverage ratio) a bare literal with no named constant? → **FOUND P3** if yes.
 
 ---
 
-### Write GAMEFARM_REVIEW.md
+### Phase 4 — Write GAMEFARM_AUDIT.md
 
-```
-# GameFarm Review — Cycle N
+Write `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS\GAMEFARM_AUDIT.md`:
 
-## Automated Checks
-| # | Check | Result | Notes |
-|---|-------|--------|-------|
-| 1 | Diff size | PASS/FAIL | N lines |
-| 2 | Files touched | PASS/FAIL | N files |
-| 3 | Import paths | PASS/FAIL | ... |
-| 4 | Debug artifacts | PASS/FAIL | ... |
-| 5 | Secrets | PASS/FAIL | ... |
-| 6 | Asset existence | PASS/FAIL/N-A | ... |
+1. **Executive Summary** — health score 0-10, top 3 priority issues, total FOUND count
+2. **File Metrics Table** — top 8 worst files by `max_func_len`
+   `| file | lines | funcs | max_func_len | todos | duplicates |`
+3. **Known Issue Checklist**
+   `| # | issue | status | file:line | priority |`
+4. **Branch Hygiene Log** — branches deleted / kept
+5. **Cycle number** — read `GAMEFARM_CHANGELOG.md` to count `## [cycle` entries; write `0` if absent
+6. **Timestamp** — ISO 8601
 
-## Manual Checklist
-| # | Item | Result | Notes |
-|---|------|--------|-------|
-| 7 | Acceptance criteria | PASS/FAIL | ... |
-| 8 | DRY pattern removed | PASS/FAIL/N-A | ... |
-| 9 | Naming conventions | PASS/FAIL | ... |
-| 10 | Error handling | PASS/FAIL | ... |
-| 11 | No dead code | PASS/FAIL | ... |
-| 12 | TOOLBAR_CATEGORY usage | PASS/FAIL/N-A | ... |
-| 13 | Element ID consistency | PASS/FAIL/N-A | ... |
-
-## Issues Found and Fixed
-<list any FAILs and the fix applied>
-
-## Final Verdict
-**APPROVED** or **NEEDS_REWORK**
-```
-
-If verdict is **APPROVED**: write `![next]!`
-If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 for repair)
+Write `![next]!` when `GAMEFARM_AUDIT.md` is complete.
 
 > **GIT SAFETY — NON-INTERACTIVE MODE**: Some git commands open an interactive editor (e.g. `git commit` without `-m`, `git rebase -i`, `git merge` with conflicts). This will **block the agent session** and require manual intervention.
 
@@ -195,8 +163,6 @@ If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 fo
 > - `git rebase --abort` if an interactive rebase accidentally starts
 > - If an editor opens unexpectedly, press **Ctrl+X** to exit nano/pico without saving, then retry with a non-interactive flag.
 
-
-> **HOUSEKEEPING REMINDER**: Before finishing this task, take a moment to DRY up any duplicated code you encounter and tidy the folder structure. Remove dead code, consolidate shared logic, and ensure clean imports.
 
 > **GIT BRANCH POLICY**: This task involves high-risk changes. Before making any modifications, create a new git branch from the current branch using: `git checkout -b card/<card_id>`. Commit your changes to this branch. Do NOT push or merge — leave that for review.
 
@@ -211,4 +177,13 @@ If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 fo
      exclamation + open-bracket + the word **next** + close-bracket + exclamation
      (the seven characters  ! [ n e x t ] !  with no spaces — written into the file).
 3. Do **not** write the marker in chat — it must land in the file on disk.
+
+## Summary
+- **Files changed**: GAMEFARM_CHANGELOG.md (cycle 8 entry added)
+- **Commands run**: git merge --no-ff, git branch -d
+- **Tests**: n/a
+- **Git**: main merged with feat/gamefarm-fence-module, branch deleted
+- **Notes**: Cycle 8 complete. Fence registration extracted to fences.js module. Changelog updated.
+
+![next]!
 
