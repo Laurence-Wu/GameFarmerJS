@@ -2,8 +2,7 @@ import Button from "../button.js";
 import Player from "../../game/player.js";
 import Menu from "../menu.js";
 import {displayMessageToAlertBox} from "../render.js";
-import Element from "../../element/element.js";
-import Resource from "../../game/resource.js";
+import {getItem} from "../../game_manager/item_registry.js";
 
 export default class ButtonBuy extends Button {
     constructor() {
@@ -21,10 +20,8 @@ export default class ButtonBuy extends Button {
             return;
         }
         player.removeMoney(buyPrice);
-        
-        let buyElement = Element.getElementFromId(parentElement.parentElement.querySelector("#imgElement img").id);
-        if (!buyElement)
-            buyElement = Resource.getResource(parentElement.parentElement.querySelector("#imgElement img").id);
+
+        let buyElement = getItem(parentElement.parentElement.querySelector("#imgElement img").id);
         buyElement.updateQuantity(buyQuantity);
         Menu.getMenu("menu-shop.html").build().displayMenu();
     }
