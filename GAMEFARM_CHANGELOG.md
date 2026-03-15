@@ -60,3 +60,12 @@
 - **Lines changed**: 8 added, 1 removed
 - **Branch**: feat/gamefarm-crop-variety-assets (merged and deleted)
 - **DRY issues remaining**: 0 (asset coverage gap resolved)
+
+## [cycle 8] 2026-03-15 — Fence registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/fences.js (new), src/game_manager/registry.js
+- **Change**: Extract fence registration logic to dedicated fences.js module
+- **Assets added**: none
+- **Lines changed**: 26 added, 15 removed
+- **Branch**: feat/gamefarm-fence-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
