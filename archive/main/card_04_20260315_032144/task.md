@@ -1,14 +1,14 @@
-# Task: card_06
+# Task: card_04
 
 | Field | Value |
 |---|---|
 | **Workflow** | gamefarm_evolve |
 | **Version** | v1 |
-| **Card** | card_06 |
+| **Card** | card_04 |
 | **Priority** | high |
-| **Timestamp** | 2026-03-15T03:21:44.355804 |
-| **Tags** | validation, gate, review, quality |
-| **Branches** | `fail`→`card_04` |
+| **Timestamp** | 2026-03-15T03:20:54.048294 |
+| **Tags** | implementation, dry, refactor, bounded |
+| **Branches** | `asset`→`card_05` |
 
 ---
 
@@ -86,106 +86,93 @@ pip freeze > requirements.txt   # to record dependencies
 
 Think about this step by step. Break the problem down into smaller sub-tasks and address each one carefully.
 
-## card_06 · Validation Gate
+## card_04 · Bounded Implementation
 
 Workspace: `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS`
 
-This is a **hard gate**. Every FAIL must be fixed before writing the next signal.
+Read `GAMEFARM_SPRINT.md`. Implement exactly the change described — nothing more.
+
+If `Sprint Type` is `asset`: implement new element registrations, then write `![next:asset]!` so card_05 handles deep integration.
+If `Sprint Type` is `code`: implement the code improvement, then write `![next]!` to proceed to card_06.
 
 ---
 
-### Automated Checks
+### Phase 1 — Research (5 minutes max)
 
-**Check 1 — Diff size gate**
+Read the target file(s) in full. Confirm the proposed solution aligns with existing conventions:
+- Action classes live in `src/element/element_actions/` and extend `ElementAction` from `src/element/element_action.js`
+- Utility functions live in `src/utils.js`
+- New elements are registered in `src/game_manager/registry.js` using the fluent API
+- New images are declared in `src/game_manager/game_assets.js` using `newImage(path, id, zIndex)`
+- Toolbar categories are referenced via `TOOLBAR_CATEGORY` from `src/view/bar.js`
+
+---
+
+### Phase 2 — Create Feature Branch
+
 ```bash
 cd C:\Users\MSI\Desktop\WinCoding\GameFarmerJS
-git diff main...HEAD --stat
+git checkout main
+git pull
+git checkout -b <branch from GAMEFARM_SPRINT.md>
 ```
-PASS: total lines added + removed ≤ 150. FAIL: reduce scope before continuing.
-
-**Check 2 — Files touched count**
-PASS: ≤ 4 files. FAIL: revert excess changes.
-
-**Check 3 — Import path integrity**
-```bash
-git diff main...HEAD --name-only
-```
-For each modified `.js` file, verify every `import` statement resolves to a file that exists on disk.
-PASS: all import paths exist. FAIL: fix broken imports.
-
-**Check 4 — No debug artifacts**
-```bash
-git diff main...HEAD
-```
-Search for new `console.log(`, `debugger`, `alert(` in changed lines of production code.
-PASS: none found (pre-existing `console.log` in map.js is OK — do NOT flag it). FAIL: remove new ones.
-
-**Check 5 — No secrets or credentials**
-Search diff for: `password`, `api_key`, `token =`, `Bearer`, `-----BEGIN`.
-PASS: none found.
-
-**Check 6 — Asset file existence (asset sprints only)**
-For each `newImage(...)` call added in `game_assets.js`, verify the referenced PNG exists on disk.
-PASS: every file exists. FAIL: remove registration or download missing asset.
 
 ---
 
-### Manual Checklist
+### Phase 3 — Implement
 
-Record PASS / FAIL / N-A for each:
+Permitted change types (ONE per sprint):
 
-7. All acceptance criteria from `GAMEFARM_SPRINT.md` are satisfied (check each one explicitly).
-8. The duplicated pattern no longer appears in old locations. Grep to confirm — e.g., for ItemRegistry, `Element.getElementFromId` should return zero matches in `button_buy.js`, `button_sell.js`, `button_more.js`.
-9. New abstractions follow conventions: `snake_case` file names, `PascalCase` class names.
-10. No bare catch-all error handling added without a meaningful comment.
-11. No commented-out code blocks added.
-12. `TOOLBAR_CATEGORY` references use the exported constant from `src/view/bar.js`, not raw DOM queries.
-13. For asset sprints: element ID in `game_assets.js` is consistent with what `getElementId()` will return.
+**DRY / Abstraction fixes:**
+
+- **AbstractHarvestAction**: Create `src/element/element_actions/abstract_harvest_action.js` extending `ElementAction`. Extract the common `element.getResource().updateQuantity(...)` + `displayRightClick(...)` block from `ActionDefault`, `ActionHarvest`, and `ActionPrune` into a `_grantResource(element)` protected method. Each subclass calls `this._grantResource(element)`. Touch max 4 files: the new abstract file + 3 action files.
+
+- **ItemRegistry**: Create `src/game_manager/item_registry.js` exporting a single `getItem(id)` function that returns `Element.getElementFromId(id) || Resource.getResource(id)`. Replace the duplicated pattern in `ButtonBuy`, `ButtonSell`, and `ButtonMore`. Touch max 4 files.
+
+- **Shared price widget**: Extract `renderPriceWidget(container, item)` into `src/view/menus/menu_shop_utils.js` and import it in both `MenuShop` and `MenuShopMore`. Touch max 3 files.
+
+- **Typo fix**: Correct `"sqaure"` → `"square"` in `src/game_manager/game_lang.js`. 1 file, 1 line.
+
+- **Magic constant**: Extract `0.55` in `src/game/map.js` to `const ISLAND_COVERAGE_RATIO = 0.55` at the top of the file. 1 file.
+
+**New element registration (asset sprint):**
+- In `src/game_manager/game_assets.js`: add `IMG` entries for each staged asset using the correct path
+- In `src/game_manager/registry.js`: add `new ElementCrop(...)` or `new ElementDefault(...)` calls following the exact fluent API pattern used for melon, wheat, etc.
+- Choose `timeToGrow` in 500-2000ms range consistent with game balance
+
+**Hard scope limits:**
+- Max **3 files** (4 if fix requires new file + 3 existing)
+- Max **150 lines** changed (added + removed)
+- Do NOT touch `game_loader.js` initialization order
+- Do NOT combine map.js changes with any other file changes
 
 ---
 
-### Fix Loop
+### Phase 4 — Verify Syntax
 
-For each FAIL: fix in place on the feature branch, re-read the changed code, confirm PASS.
-Do NOT write any next signal while any check is FAIL.
+Re-read each modified file top-to-bottom and confirm:
+1. All `import` statements reference correct relative paths
+2. Button files no longer contain `Element.getElementFromId` directly (if ItemRegistry fix)
+3. No `undefined` variable references introduced
+4. New `IMG` entries follow pattern: `KEY: newImage("assets/image/<subdir>/<file>.png", "<id>", <zIndex>)`
+5. Element ID in `game_assets.js` matches the filename stem
 
 ---
 
-### Write GAMEFARM_REVIEW.md
+### Phase 5 — Update Sprint File
 
+Append `## Implementation Notes` to `GAMEFARM_SPRINT.md`:
 ```
-# GameFarm Review — Cycle N
-
-## Automated Checks
-| # | Check | Result | Notes |
-|---|-------|--------|-------|
-| 1 | Diff size | PASS/FAIL | N lines |
-| 2 | Files touched | PASS/FAIL | N files |
-| 3 | Import paths | PASS/FAIL | ... |
-| 4 | Debug artifacts | PASS/FAIL | ... |
-| 5 | Secrets | PASS/FAIL | ... |
-| 6 | Asset existence | PASS/FAIL/N-A | ... |
-
-## Manual Checklist
-| # | Item | Result | Notes |
-|---|------|--------|-------|
-| 7 | Acceptance criteria | PASS/FAIL | ... |
-| 8 | DRY pattern removed | PASS/FAIL/N-A | ... |
-| 9 | Naming conventions | PASS/FAIL | ... |
-| 10 | Error handling | PASS/FAIL | ... |
-| 11 | No dead code | PASS/FAIL | ... |
-| 12 | TOOLBAR_CATEGORY usage | PASS/FAIL/N-A | ... |
-| 13 | Element ID consistency | PASS/FAIL/N-A | ... |
-
-## Issues Found and Fixed
-<list any FAILs and the fix applied>
-
-## Final Verdict
-**APPROVED** or **NEEDS_REWORK**
+## Implementation Notes
+- Approach: <why this solution>
+- Files changed: <list with line-change counts>
+- Lines added: N, lines removed: N, total delta: N
+- Deferred (if any): <what was left out and why>
+- Import chain verified: yes/no
 ```
 
-If verdict is **APPROVED**: write `![next]!`
-If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 for repair)
+If sprint type is `code`: write `![next]!`
+If sprint type is `asset`: write `![next:asset]!`
 
 > **GIT SAFETY — NON-INTERACTIVE MODE**: Some git commands open an interactive editor (e.g. `git commit` without `-m`, `git rebase -i`, `git merge` with conflicts). This will **block the agent session** and require manual intervention.
 
@@ -211,4 +198,13 @@ If verdict is **NEEDS_REWORK**: write `![next:fail]!` (routes back to card_04 fo
      exclamation + open-bracket + the word **next** + close-bracket + exclamation
      (the seven characters  ! [ n e x t ] !  with no spaces — written into the file).
 3. Do **not** write the marker in chat — it must land in the file on disk.
+
+## Summary
+- **Files changed**: src/game_manager/ground_types.js (new), src/game_manager/registry.js, GAMEFARM_SPRINT.md
+- **Commands run**: git checkout -b feat/gamefarm-ground-types-module
+- **Tests**: n/a
+- **Git**: feat/gamefarm-ground-types-module (no commit)
+- **Notes**: Extracted ground types registration to dedicated ground_types.js module. 18 lines added, 5 removed. Import chain verified.
+
+![next]!
 
