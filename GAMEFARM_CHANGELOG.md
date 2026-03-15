@@ -132,3 +132,12 @@
 - **Lines changed**: 15 added, 0 removed
 - **Branch**: feat/gamefarm-decoration-variety-mushroom-hay (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 16] 2026-03-15 — Add well and pumpkin decorations
+- **Sprint type**: asset
+- **Target**: src/game_manager/game_assets.js, src/game_manager/static_objects.js
+- **Change**: Register well and pumpkin decoration elements with DECORATION toolbar category
+- **Assets added**: well0.png, pumpkin0.png (2 placeholder assets, 48x48px)
+- **Lines changed**: 15 added, 0 removed
+- **Branch**: feat/gamefarm-decoration-well-pumpkin (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
