@@ -32,7 +32,6 @@ export function displayMessageToAlertBox(messageToDisplay) {
     const htmlElement = document.getElementById("alertbox");
     htmlElement.textContent = messageToDisplay;
     htmlElement.style.display = "block";
-    //todo
     setTimeout( () => {
         if (htmlElement.style.display === "block")
             htmlElement.style.display = "none";
