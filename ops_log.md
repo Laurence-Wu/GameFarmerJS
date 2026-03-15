@@ -4,3 +4,4 @@
 [2026-03-15 13:05 UTC] cycle 14 — asset: bush decoration assets (bush0, bush1, bush2), P1 delta: 0, next priority: backlog empty - all P1/P2/P3 resolved
 [2026-03-15 13:21 UTC] cycle 15 — asset: mushroom and hay bale decorations, P1 delta: 0, next priority: backlog empty - all P1/P2/P3 resolved
 [2026-03-15 13:38 UTC] cycle 16 — asset: well and pumpkin decorations, P1 delta: 0, next priority: backlog empty - all P1/P2/P3 resolved
+[2026-03-15 13:59 UTC] cycle 17 — asset: flower variety decorations (flower3, flower4), P1 delta: 0, next priority: backlog empty - all P1/P2/P3 resolved
