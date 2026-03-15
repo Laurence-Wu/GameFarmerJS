@@ -17,6 +17,8 @@ export const IMG = {
 	FLOWER0: newImage("assets/image/static/flower0.png", "flower0", 1),
 	FLOWER1: newImage("assets/image/static/flower1.png", "flower1", 1),
 	FLOWER2: newImage("assets/image/static/flower2.png", "flower2", 1),
+	FLOWER3: newImage("assets/image/static/flower3.png", "flower3", 1),
+	FLOWER4: newImage("assets/image/static/flower4.png", "flower4", 1),
 	BUSH0: newImage("assets/image/static/bush0.png", "bush0", 1),
 	BUSH1: newImage("assets/image/static/bush1.png", "bush1", 1),
 	BUSH2: newImage("assets/image/static/bush2.png", "bush2", 1),
