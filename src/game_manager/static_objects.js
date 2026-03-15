@@ -50,6 +50,19 @@ export function registerStaticObjects() {
         .setDisplayName("Hay Bale")
         .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
 
+    // Well and Pumpkin (Decoration category)
+    (new ElementDefault(IMG.WELL0))
+        .setNaturalSpawnChance(8)
+        .setLootable(Resource.getResource("leaf"))
+        .setDisplayName("Well")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
+    (new ElementDefault(IMG.PUMPKIN0))
+        .setNaturalSpawnChance(12)
+        .setLootable(Resource.getResource("fruit"))
+        .setDisplayName("Pumpkin")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
     // Trees
     (new ElementDefault(IMG.TREE0, new ActionPrune()))
         .setNaturalSpawnChance(20)
