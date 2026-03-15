@@ -1,28 +1,26 @@
-# GameFarm Sprint: Dynamic Toolbar Category Registration
+# GameFarm Sprint: Add DECORATION Toolbar Category
 
 **Type**: code
-**Target file(s)**: src/view/bar.js, src/game_manager/registry.js
-**Issue**: TOOLBAR_CATEGORY is hardcoded with only CROP and FENCE, requiring edits to both bar.js and registry.js to add new tabs
-**Root cause**: Toolbar categories defined as static const object instead of dynamic registry pattern
+**Target file(s)**: src/view/bar.js
+**Issue**: DECORATION category missing from TOOLBAR_CATEGORY, preventing decorative elements from having a toolbar tab
+**Root cause**: Toolbar categories hardcoded with only CROP and FENCE keys
 **Priority**: P2
 
 ## Acceptance Criteria
-1. `TOOLBAR_CATEGORY` is replaced with a `registerToolbarCategory(name, element)` function that dynamically registers categories
-2. Existing CROP and FENCE categories are registered via the new function
-3. Adding a new category (e.g., DECORATION) requires only calling `registerToolbarCategory` in registry.js without modifying bar.js
-4. All existing toolbar functionality (mouseDownToolBar listener) continues to work for registered categories
+1. `TOOLBAR_CATEGORY` object in `src/view/bar.js` includes `DECORATION` key
+2. `registerToolbarCategory('DECORATION', ...)` is called to register the category
+3. New decorative elements can use `setHtmlDisplayCategory(getToolbarCategory('DECORATION'))`
 
 ## Files to Touch
-- src/view/bar.js (refactor TOOLBAR_CATEGORY to dynamic registry)
-- src/game_manager/registry.js (register CROP and FENCE via new pattern)
+- src/view/bar.js
 
 ## Estimated Scope
-- Lines added: ~25
-- Lines removed: ~10
-- Total delta: ~35 (≤ 150 ✓)
+- Lines added: ~3
+- Lines removed: ~0
+- Total delta: ~3 (≤ 150)
 
 ## Branch
-feat/gamefarm-toolbar-category-registry
+feat/gamefarm-decoration-category
 
 ## Sprint Type
 code
@@ -30,19 +28,12 @@ code
 ## Skipped Candidates
 | Issue | Reason skipped |
 |-------|----------------|
-| #8 DECORATION category missing | Will be naturally unblocked by this sprint; can be added in next cycle |
-| #6 Asset coverage gap | Asset addition sprint; defer until after P2 structural fixes complete |
-| #5 Typo in lang file | Low priority P3; can be bundled with next small fix |
-| #9 getResourceFromId stub | Low priority P3; requires design decision on implementation |
-| #10 Magic number in map.js | Low priority P3; trivial fix but not blocking |
+| P2 Asset coverage gap (registry.js) | Recently touched in cycle 4, negative score (-1) |
+| P3 getResourceFromId stub (resource.js) | Lower priority (P3), deferred |
 
 ## Implementation Notes
-- Approach: Introduced dynamic toolbar category registry using Map-based pattern with `registerToolbarCategory()`, `getToolbarCategory()`, and `getToolbarCategories()` exports. Legacy `TOOLBAR_CATEGORY` kept for backward compatibility.
-- Files changed: 
-  - src/view/bar.js (+23 lines: new registry functions + auto-registration)
-  - src/game_manager/registry.js (+4 lines: import + registration calls, updated fences/crops to use getToolbarCategory)
-  - src/game_manager/game_loader.js (+2 lines: updated imports and listener attachment)
-- Lines added: 29, lines removed: 6, total delta: 35
-- Deferred: None
-- Import chain verified: yes (syntax check passed with node --check)
-![next]!
+- Approach: Added DECORATION key to TOOLBAR_CATEGORY object and registered it via registerToolbarCategory()
+- Files changed: src/view/bar.js (2 lines added)
+- Lines added: 2, lines removed: 0, total delta: 2
+- Deferred: none
+- Import chain verified: yes (no new imports needed)
