@@ -123,3 +123,12 @@
 - **Lines changed**: 23 added, 0 removed
 - **Branch**: feat/gamefarm-decoration-bush-assets (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 15] 2026-03-15 — Add mushroom and hay bale decorations
+- **Sprint type**: asset
+- **Target**: src/game_manager/game_assets.js, src/game_manager/static_objects.js
+- **Change**: Register mushroom and hay bale decoration elements with DECORATION toolbar category
+- **Assets added**: mushroom0.png, haybale0.png (2 placeholder assets, 48x48px)
+- **Lines changed**: 15 added, 0 removed
+- **Branch**: feat/gamefarm-decoration-variety-mushroom-hay (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
