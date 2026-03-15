@@ -42,3 +42,12 @@
 - **Lines changed**: 2 added, 0 removed
 - **Branch**: feat/gamefarm-decoration-category (merged and deleted)
 - **DRY issues remaining**: 2 (P2 asset gap, P2 DECORATION now resolved; remaining: P3 getResourceFromId stub, P2 asset coverage gap)
+
+## [cycle 6] 2026-03-15 — Implement getResourceFromId utility
+- **Sprint type**: code
+- **Target**: src/game/resource.js
+- **Change**: Implement static getResourceFromId(id) method to return Resource.resources.get(id)
+- **Assets added**: none
+- **Lines changed**: 8 added, 1 removed
+- **Branch**: feat/gamefarm-get-resource-from-id (merged and deleted)
+- **DRY issues remaining**: 1 (P2 asset coverage gap; P3 getResourceFromId now resolved)
