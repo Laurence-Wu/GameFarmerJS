@@ -67,4 +67,7 @@ export function registerElements() {
     (new ElementCrop(IMG.SUGARCANE, "Sugarcane", 1300, Resource.getResource("fruit"), 3)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
     (new ElementCrop(IMG.EGGPLANT, "Eggplant", 300, Resource.getResource("fruit"))).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
     (new ElementCrop(IMG.CHILI, "Chili", 700, Resource.getResource("fruit"), 2)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.CARROT, "Carrot", 800, Resource.getResource("fruit"), 4)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.CORN, "Corn", 1200, Resource.getResource("fruit"), 3)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.TOMATO, "Tomato", 600, Resource.getResource("fruit"), 5)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
 }
