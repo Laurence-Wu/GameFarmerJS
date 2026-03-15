@@ -3,6 +3,7 @@ import Resource from "../game/resource.js";
 import ElementDefault from "../element/elements/element_default.js";
 import ActionPrune from "../element/element_actions/action_prune.js";
 import Element from "../element/element.js";
+import {getToolbarCategory} from "../view/bar.js";
 
 /**
  * Register all static objects and trees in the game.
@@ -16,6 +17,25 @@ export function registerStaticObjects() {
     (new ElementDefault(IMG.FLOWER1)).setNaturalSpawnChance(2).setLootable(Resource.getResource("seed0"));
     (new ElementDefault(IMG.FLOWER2)).setNaturalSpawnChance(2).setLootable(Resource.getResource("seed0"));
     (new ElementDefault(IMG.TRUNK0)).setNaturalSpawnChance(10).setLootable(Resource.getResource("wood"), 2);
+
+    // Bushes (Decoration category)
+    (new ElementDefault(IMG.BUSH0))
+        .setNaturalSpawnChance(20)
+        .setLootable(Resource.getResource("leaf"))
+        .setDisplayName("Bush")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
+    (new ElementDefault(IMG.BUSH1))
+        .setNaturalSpawnChance(20)
+        .setLootable(Resource.getResource("leaf"))
+        .setDisplayName("Bush Green")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
+
+    (new ElementDefault(IMG.BUSH2))
+        .setNaturalSpawnChance(20)
+        .setLootable(Resource.getResource("leaf"))
+        .setDisplayName("Bush Dark")
+        .setHtmlDisplayCategory(getToolbarCategory('DECORATION'));
 
     // Trees
     (new ElementDefault(IMG.TREE0, new ActionPrune()))
