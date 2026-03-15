@@ -16,6 +16,8 @@ export function registerStaticObjects() {
     (new ElementDefault(IMG.FLOWER0)).setNaturalSpawnChance(2).setLootable(Resource.getResource("seed0"));
     (new ElementDefault(IMG.FLOWER1)).setNaturalSpawnChance(2).setLootable(Resource.getResource("seed0"));
     (new ElementDefault(IMG.FLOWER2)).setNaturalSpawnChance(2).setLootable(Resource.getResource("seed0"));
+    (new ElementDefault(IMG.FLOWER3)).setNaturalSpawnChance(3).setLootable(Resource.getResource("seed0"));
+    (new ElementDefault(IMG.FLOWER4)).setNaturalSpawnChance(3).setLootable(Resource.getResource("seed0"));
     (new ElementDefault(IMG.TRUNK0)).setNaturalSpawnChance(10).setLootable(Resource.getResource("wood"), 2);
 
     // Bushes (Decoration category)
