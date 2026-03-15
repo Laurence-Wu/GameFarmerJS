@@ -12,18 +12,14 @@ import {registerFences} from "./fences.js";
 import {registerCrops} from "./crops.js";
 import {registerStaticObjects} from "./static_objects.js";
 import {registerGroundTypes} from "./ground_types.js";
+import {registerResources as registerResourcesModule} from "./resources.js";
 
 // Register toolbar categories dynamically
 registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
 registerToolbarCategory('FENCE', document.getElementById('dropup-fence'));
 
-export function registerResources() {
-    new Resource("Fruit", IMG_ICON.FRUIT).setPrice(5, 5);
-    new Resource("Seed", IMG_ICON.SEED);
-    new Resource("Rock", IMG_ICON.ROCK);
-    new Resource("Wood", IMG_ICON.WOOD);
-    new Resource("Leaf", IMG_ICON.LEAF);
-}
+// Re-export registerResources from resources module for backward compatibility
+export const registerResources = registerResourcesModule;
 
 export function registerElements() {
     // Ground Types
