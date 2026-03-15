@@ -11,6 +11,7 @@ import {registerToolbarCategory, getToolbarCategory} from "../view/bar.js";
 import {registerFences} from "./fences.js";
 import {registerCrops} from "./crops.js";
 import {registerStaticObjects} from "./static_objects.js";
+import {registerGroundTypes} from "./ground_types.js";
 
 // Register toolbar categories dynamically
 registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
@@ -26,10 +27,7 @@ export function registerResources() {
 
 export function registerElements() {
     // Ground Types
-    new ElementGround(IMG.GRASS, new ActionPlowe());
-    new ElementGround(IMG.GRASS_SIDE);
-    new ElementGround(IMG.GRASS_CORNER);
-    new ElementGround(IMG.GRASS_FARM, new ActionUnplowe());
+    registerGroundTypes();
 
     // Static Objects
     registerStaticObjects();

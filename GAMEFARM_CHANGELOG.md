@@ -78,3 +78,12 @@
 - **Lines changed**: 22 added, 9 removed
 - **Branch**: feat/gamefarm-crops-module (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 10] 2026-03-15 — Static objects registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/static_objects.js (new), src/game_manager/registry.js
+- **Change**: Extract static objects and trees registration logic to dedicated static_objects.js module
+- **Assets added**: none
+- **Lines changed**: 32 added, 17 removed
+- **Branch**: feat/gamefarm-static-objects-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
