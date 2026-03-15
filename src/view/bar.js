@@ -17,18 +17,6 @@ export function getToolbarCategories() {
     return toolbarCategories;
 }
 
-// Legacy export for backward compatibility - will be removed in future refactor
-export const TOOLBAR_CATEGORY = {
-    CROP: document.getElementById('dropup-crop'),
-    FENCE: document.getElementById('dropup-fence'),
-    DECORATION: document.getElementById('dropup-decoration')
-}
-
-// Auto-register legacy categories
-registerToolbarCategory('CROP', TOOLBAR_CATEGORY.CROP);
-registerToolbarCategory('FENCE', TOOLBAR_CATEGORY.FENCE);
-registerToolbarCategory('DECORATION', TOOLBAR_CATEGORY.DECORATION);
-
 export function addChildToResourceBar(element) {
     resourceBarElement.appendChild(element);
 }

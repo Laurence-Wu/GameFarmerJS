@@ -7,4 +7,5 @@ import {registerToolbarCategory} from "../view/bar.js";
 export function registerToolbarCategories() {
     registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
     registerToolbarCategory('FENCE', document.getElementById('dropup-fence'));
+    registerToolbarCategory('DECORATION', document.getElementById('dropup-decoration'));
 }
