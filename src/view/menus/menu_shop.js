@@ -2,6 +2,7 @@ import Menu from "../menu.js";
 import Element from "../../element/element.js";
 import Resource from "../../game/resource.js";
 import Player from "../../game/player.js";
+import {renderPriceWidget} from "./menu_shop_utils.js";
 
 export default class MenuShop extends Menu {
     async init() {
@@ -41,18 +42,7 @@ export default class MenuShop extends Menu {
         card.appendChild(title);
 
         // Price info
-        const priceInfo = document.createElement("div");
-        priceInfo.classList.add("shopItemPrice");
-        
-        const moneyIcon = document.createElement("img");
-        moneyIcon.src = "assets/image/icon/money_icon.png";
-        
-        const priceValue = document.createElement("span");
-        priceValue.textContent = `${item.getBuyPrice() || item.getSellPrice()}`;
-        
-        priceInfo.appendChild(moneyIcon);
-        priceInfo.appendChild(priceValue);
-        card.appendChild(priceInfo);
+        renderPriceWidget(card, item);
 
         // More Button
         const button = document.createElement("button");
