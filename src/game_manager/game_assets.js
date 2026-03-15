@@ -22,6 +22,8 @@ export const IMG = {
 	BUSH2: newImage("assets/image/static/bush2.png", "bush2", 1),
 	MUSHROOM0: newImage("assets/image/static/mushroom0.png", "mushroom0", 1),
 	HAYBALE0: newImage("assets/image/static/haybale0.png", "haybale0", 1),
+	WELL0: newImage("assets/image/static/well0.png", "well0", 1),
+	PUMPKIN0: newImage("assets/image/static/pumpkin0.png", "pumpkin0", 1),
 	TRUNK0: newImage("assets/image/static/trunk0.png", "trunk0", 1),
 	DOOR_WOOD_CLOSE: newImage("assets/image/fence/door_wood_close.png", "door_wood_close", 1),
 	FENCE_WOOD_1: newImage("assets/image/fence/fence_wood_1.png", "fence_wood_1", 1),
