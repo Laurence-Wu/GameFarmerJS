@@ -3,6 +3,8 @@ import {getPercent} from "../utils.js"
 import {addImgToSquare} from "../view/render.js";
 import {globalSize, mapHeight, mapWidth, naturalGeneration} from "../game_manager/game_settings.js";
 
+const ISLAND_COVERAGE_RATIO = 0.55;
+
 export default class Map {
     static map;
     static mapInstance;
@@ -37,7 +39,7 @@ export default class Map {
     #generateIslandShape() {
         const landTiles = new Set();
         const maxTiles = this.numRows * this.squaresPerRow;
-        const targetLandCount = Math.floor(maxTiles * 0.55); // Island covers 55% area
+        const targetLandCount = Math.floor(maxTiles * ISLAND_COVERAGE_RATIO); // Island covers 55% area
 
         let curX = Math.floor(this.numRows / 2);
         let curY = Math.floor(this.squaresPerRow / 2);
