@@ -32,7 +32,10 @@ export const IMG = {
 	WHEAT: newImage("assets/image/crops/wheat6.png", "wheat", 1),
 	SUGARCANE: newImage("assets/image/crops/sugarcane6.png", "sugarcane", 1),
 	EGGPLANT: newImage("assets/image/crops/eggplant6.png", "eggplant", 1),
-	CHILI: newImage("assets/image/crops/chili6.png", "chili", 1)
+	CHILI: newImage("assets/image/crops/chili6.png", "chili", 1),
+	CARROT: newImage("assets/image/crops/carrot6.png", "carrot", 1),
+	CORN: newImage("assets/image/crops/corn6.png", "corn", 1),
+	TOMATO: newImage("assets/image/crops/tomato6.png", "tomato", 1)
 }
 
 export const IMG_ICON = {
