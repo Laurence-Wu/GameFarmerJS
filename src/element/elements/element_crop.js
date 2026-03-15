@@ -3,7 +3,7 @@ import ActionHarvest from "../element_actions/action_harvest.js";
 import {newImages, getImageNumber} from "../../utils.js";
 import {addImgToSquare, replaceElementImg} from "../../view/render.js";
 import {timeToGrow} from "../../game_manager/game_settings.js";
-import {TOOLBAR_CATEGORY, updateToolBarQuantity} from "../../view/bar.js";
+import {getToolbarCategory, updateToolBarQuantity} from "../../view/bar.js";
 import Player from "../../game/player.js";
 
 export default class ElementCrop extends Element {
@@ -13,7 +13,7 @@ export default class ElementCrop extends Element {
 		this.setLootable(resource, resourceNumber)
 		this.stageImages = this.setImagesStage();
 		this.setDisplayName(displayName)
-		this.setHtmlDisplayCategory(TOOLBAR_CATEGORY.CROP)
+		this.setHtmlDisplayCategory(getToolbarCategory('CROP'))
 	}
 
 	performSetElementToSquare(square) {

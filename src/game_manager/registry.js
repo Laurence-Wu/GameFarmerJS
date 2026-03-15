@@ -7,7 +7,11 @@ import ActionPlowe from "../element/element_actions/action_plowe.js";
 import ActionUnplowe from "../element/element_actions/action_unplowe.js";
 import ActionPrune from "../element/element_actions/action_prune.js";
 import Element from "../element/element.js";
-import {TOOLBAR_CATEGORY} from "../view/bar.js";
+import {registerToolbarCategory, getToolbarCategory} from "../view/bar.js";
+
+// Register toolbar categories dynamically
+registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
+registerToolbarCategory('FENCE', document.getElementById('dropup-fence'));
 
 export function registerResources() {
     new Resource("Fruit", IMG_ICON.FRUIT).setPrice(5, 5);
@@ -54,13 +58,13 @@ export function registerElements() {
         (new ElementDefault(img))
             .setLootable(Resource.getResource("wood"))
             .setDisplayName(name.charAt(0).toUpperCase() + name.slice(1))
-            .setHtmlDisplayCategory(TOOLBAR_CATEGORY.FENCE);
+            .setHtmlDisplayCategory(getToolbarCategory('FENCE'));
     });
 
     // Crops
-    (new ElementCrop(IMG.MELON, "Melon", 1000, Resource.getResource("fruit"))).setPrice(15, 500);
-    (new ElementCrop(IMG.WHEAT, "Wheat", 1500, Resource.getResource("fruit"), 5)).setPrice(5, 5);
-    (new ElementCrop(IMG.SUGARCANE, "Sugarcane", 1300, Resource.getResource("fruit"), 3)).setPrice(5, 5);
-    (new ElementCrop(IMG.EGGPLANT, "Eggplant", 300, Resource.getResource("fruit"))).setPrice(5, 5);
-    (new ElementCrop(IMG.CHILI, "Chili", 700, Resource.getResource("fruit"), 2)).setPrice(5, 5);
+    (new ElementCrop(IMG.MELON, "Melon", 1000, Resource.getResource("fruit"), 5)).setPrice(15, 500).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.WHEAT, "Wheat", 1500, Resource.getResource("fruit"), 5)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.SUGARCANE, "Sugarcane", 1300, Resource.getResource("fruit"), 3)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.EGGPLANT, "Eggplant", 300, Resource.getResource("fruit"))).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
+    (new ElementCrop(IMG.CHILI, "Chili", 700, Resource.getResource("fruit"), 2)).setPrice(5, 5).setHtmlDisplayCategory(getToolbarCategory('CROP'));
 }
