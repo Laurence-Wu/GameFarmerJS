@@ -11,6 +11,7 @@ import {registerToolbarCategories} from "./toolbar_categories.js";
 import {registerFences} from "./fences.js";
 import {registerCrops} from "./crops.js";
 import {registerStaticObjects} from "./static_objects.js";
+import {registerTrees} from "./trees.js";
 import {registerDecorations} from "./decorations.js";
 import {registerGroundTypes} from "./ground_types.js";
 import {registerResources as registerResourcesModule} from "./resources.js";
@@ -27,6 +28,9 @@ export function registerElements() {
 
     // Static Objects
     registerStaticObjects();
+
+    // Trees
+    registerTrees();
 
     // Decorations
     registerDecorations();
