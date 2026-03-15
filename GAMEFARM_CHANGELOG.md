@@ -141,3 +141,12 @@
 - **Lines changed**: 15 added, 0 removed
 - **Branch**: feat/gamefarm-decoration-well-pumpkin (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 17] 2026-03-15 — Add flower variety decorations
+- **Sprint type**: asset
+- **Target**: src/game_manager/game_assets.js, src/game_manager/static_objects.js
+- **Change**: Register flower3 and flower4 decoration elements
+- **Assets added**: flower3.png, flower4.png (2 placeholder assets, 48x48px)
+- **Lines changed**: 4 added, 0 removed
+- **Branch**: feat/gamefarm-decoration-flower-variety (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
