@@ -1,26 +1,29 @@
-# GameFarm Sprint: Add DECORATION Toolbar Category
+# GameFarm Sprint: Extract Fence Registration to Separate Module
 
 **Type**: code
-**Target file(s)**: src/view/bar.js
-**Issue**: DECORATION category missing from TOOLBAR_CATEGORY, preventing decorative elements from having a toolbar tab
-**Root cause**: Toolbar categories hardcoded with only CROP and FENCE keys
-**Priority**: P2
+**Target file(s)**: src/game_manager/registry.js, src/game_manager/fences.js (new)
+**Issue**: The `_registerFences()` helper function in registry.js can be extracted to a dedicated module for better code organization and separation of concerns.
+**Root cause**: Fence registration logic is in a private helper within registry.js instead of a dedicated module.
+**Priority**: P3 (code quality improvement, no functional bug)
 
 ## Acceptance Criteria
-1. `TOOLBAR_CATEGORY` object in `src/view/bar.js` includes `DECORATION` key
-2. `registerToolbarCategory('DECORATION', ...)` is called to register the category
-3. New decorative elements can use `setHtmlDisplayCategory(getToolbarCategory('DECORATION'))`
+1. A new file `src/game_manager/fences.js` is created that exports a `registerFences()` function
+2. The `registerFences()` function contains all fence element registration logic
+3. `registry.js` imports and calls `registerFences()` instead of `_registerFences()`
+4. All 9 fences are still registered with correct displayName, lootable, and toolbar category
+5. No changes to fence behavior or appearance
 
 ## Files to Touch
-- src/view/bar.js
+- src/game_manager/fences.js (new)
+- src/game_manager/registry.js
 
 ## Estimated Scope
-- Lines added: ~3
-- Lines removed: ~0
-- Total delta: ~3 (≤ 150)
+- Lines added: ~20
+- Lines removed: ~15
+- Total delta: ~35 (well under 150 limit)
 
 ## Branch
-feat/gamefarm-decoration-category
+feat/gamefarm-fence-module
 
 ## Sprint Type
 code
@@ -28,12 +31,13 @@ code
 ## Skipped Candidates
 | Issue | Reason skipped |
 |-------|----------------|
-| P2 Asset coverage gap (registry.js) | Recently touched in cycle 4, negative score (-1) |
-| P3 getResourceFromId stub (resource.js) | Lower priority (P3), deferred |
+| Large max_func_len in game_loader.js (896) | Out of scope - not touched in this sprint |
+| Test coverage addition | Deferred until more critical code quality issues addressed |
+| Other static object extraction | Focused on fences only as bounded slice |
 
 ## Implementation Notes
-- Approach: Added DECORATION key to TOOLBAR_CATEGORY object and registered it via registerToolbarCategory()
-- Files changed: src/view/bar.js (2 lines added)
-- Lines added: 2, lines removed: 0, total delta: 2
-- Deferred: none
-- Import chain verified: yes (no new imports needed)
+- Approach: Extracted fence registration logic into a dedicated src/game_manager/fences.js module for better separation of concerns and code organization
+- Files changed: src/game_manager/fences.js (new, 24 lines), src/game_manager/registry.js (15 lines removed, 2 lines added)
+- Lines added: 26, lines removed: 15, total delta: 11
+- Deferred (if any): None - all acceptance criteria met
+- Import chain verified: yes (fences.js imports IMG, Resource, ElementDefault, getToolbarCategory; registry.js imports registerFences)

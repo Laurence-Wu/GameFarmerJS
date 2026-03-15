@@ -1,0 +1,10 @@
+{
+  "card_id": "card_08",
+  "alias": "card_08",
+  "loop_id": "main",
+  "workflow": "gamefarm_evolve",
+  "version": "v1",
+  "agent_id": "game_farmers",
+  "started_at": "2026-03-15T02:59:18.995654",
+  "completed_at": "2026-03-15T02:59:43.122311"
+}
