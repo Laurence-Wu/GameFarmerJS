@@ -7,16 +7,15 @@ import ActionPlowe from "../element/element_actions/action_plowe.js";
 import ActionUnplowe from "../element/element_actions/action_unplowe.js";
 import ActionPrune from "../element/element_actions/action_prune.js";
 import Element from "../element/element.js";
-import {registerToolbarCategory, getToolbarCategory} from "../view/bar.js";
+import {registerToolbarCategories} from "./toolbar_categories.js";
 import {registerFences} from "./fences.js";
 import {registerCrops} from "./crops.js";
 import {registerStaticObjects} from "./static_objects.js";
 import {registerGroundTypes} from "./ground_types.js";
 import {registerResources as registerResourcesModule} from "./resources.js";
 
-// Register toolbar categories dynamically
-registerToolbarCategory('CROP', document.getElementById('dropup-crop'));
-registerToolbarCategory('FENCE', document.getElementById('dropup-fence'));
+// Register toolbar categories
+registerToolbarCategories();
 
 // Re-export registerResources from resources module for backward compatibility
 export const registerResources = registerResourcesModule;

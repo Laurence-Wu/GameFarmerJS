@@ -96,3 +96,12 @@
 - **Lines changed**: 18 added, 5 removed
 - **Branch**: feat/gamefarm-ground-types-module (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 12] 2026-03-15 — Resources registration module extraction
+- **Sprint type**: code
+- **Target**: src/game_manager/resources.js (new), src/game_manager/registry.js
+- **Change**: Extract resources registration logic to dedicated resources.js module with re-export for backward compatibility
+- **Assets added**: none
+- **Lines changed**: 17 added, 7 removed
+- **Branch**: feat/gamefarm-resources-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
