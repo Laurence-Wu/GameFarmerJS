@@ -1,14 +1,14 @@
-# Task: card_04
+# Task: card_03
 
 | Field | Value |
 |---|---|
 | **Workflow** | gamefarm_evolve |
 | **Version** | v1 |
-| **Card** | card_04 |
-| **Priority** | high |
-| **Timestamp** | 2026-03-14T23:26:30.405363 |
-| **Tags** | implementation, dry, refactor, bounded |
-| **Branches** | `asset`→`card_05` |
+| **Card** | card_03 |
+| **Priority** | normal |
+| **Timestamp** | 2026-03-14T23:46:09.025284 |
+| **Tags** | asset-scraping, research, kenney, opengameart |
+| **Branches** | `asset`→`card_04` |
 
 ---
 
@@ -84,99 +84,90 @@ pip freeze > requirements.txt   # to record dependencies
 
 ## Current Task
 
-Think about this step by step. Break the problem down into smaller sub-tasks and address each one carefully.
-
-## card_04 · Bounded Implementation
+## card_03 · Asset Scout
 
 Workspace: `C:\Users\MSI\Desktop\WinCoding\GameFarmerJS`
 
-Read `GAMEFARM_SPRINT.md`. Implement exactly the change described — nothing more.
+Read `GAMEFARM_SPRINT.md`.
 
-If `Sprint Type` is `asset`: implement new element registrations, then write `![next:asset]!` so card_05 handles deep integration.
-If `Sprint Type` is `code`: implement the code improvement, then write `![next]!` to proceed to card_06.
+**If `Sprint Type` is `code`**: This card is a NO-OP. Write a one-line note at the top of `GAMEFARM_ASSETS.md`: `SKIPPED: code sprint cycle — no asset work this iteration.` Then write `![next]!` immediately.
 
----
-
-### Phase 1 — Research (5 minutes max)
-
-Read the target file(s) in full. Confirm the proposed solution aligns with existing conventions:
-- Action classes live in `src/element/element_actions/` and extend `ElementAction` from `src/element/element_action.js`
-- Utility functions live in `src/utils.js`
-- New elements are registered in `src/game_manager/registry.js` using the fluent API
-- New images are declared in `src/game_manager/game_assets.js` using `newImage(path, id, zIndex)`
-- Toolbar categories are referenced via `TOOLBAR_CATEGORY` from `src/view/bar.js`
+**If `Sprint Type` is `asset`**: Execute the full asset scout below, then write `![next:asset]!`.
 
 ---
 
-### Phase 2 — Create Feature Branch
+### Asset Scout (asset sprints only)
 
-```bash
-cd C:\Users\MSI\Desktop\WinCoding\GameFarmerJS
-git checkout main
-git pull
-git checkout -b <branch from GAMEFARM_SPRINT.md>
+#### Phase 1 — Inventory Existing Assets
+
+List all files under `assets/image/` by subdirectory:
+- `crops/` — currently: melon, wheat, sugarcane, eggplant, chili (7 stages each, 0-6)
+- `ground/` — grass, grass_side, grass_corner, grass_farm
+- `static/` — flower0/1/2, plant0, rock0, tree0/1, trunk0
+- `fence/` — door_wood_close, fence_wood_1 through 8
+- `icon/` — various icons
+
+Identify gaps: missing crop varieties, missing decorations.
+
+#### Phase 2 — Scout Free Sprite Sources
+
+Search these sources for freely licensed farming sprite packs (CC0, CC-BY, or MIT only):
+
+1. **kenney.nl** — search for "Tiny Farm", "Farming", "Fruits", or "RPG" packs. Record pack name, license, download URL, and which sprites map to GameFarmerJS crop/decoration IDs.
+
+2. **opengameart.org** — search `farming sprites pixel` or `crop tileset`. Target: small PNGs with transparent backgrounds, 16x16 or 32x32 tiles. Record: title, author, license, URL, tile dimensions.
+
+3. **itch.io** — search `free farming tileset` filtered to "Free" price. Record any CC0 packs.
+
+For each candidate, evaluate:
+- License: CC0 (ideal) > CC-BY (acceptable) > others (skip)
+- Style compatibility: pixel art, top-down, color tone matching existing GameFarmerJS crops
+- Usable sprites for: carrot, corn, tomato, pumpkin, hay bale, mushroom, well
+
+#### Phase 3 — Download and Stage Assets
+
+For the top 1-2 packs found:
+1. Download the pack or individual sprites
+2. Place in:
+   - New crops → `assets/image/crops/`
+   - New decorations → `assets/image/static/`
+3. Follow naming convention: `<cropname>0.png` through `<cropname>6.png` for crops, `<name>0.png` for decorations
+4. If a spritesheet was downloaded, crop individual tiles and save as separate PNGs
+5. Verify files are correctly sized (~32-64px matching existing assets)
+
+#### Phase 4 — Write GAMEFARM_ASSETS.md
+
+```
+# GameFarm Asset Scout Report
+
+## Cycle N — <date>
+
+## Sources Checked
+| Source | Pack | License | URL |
+|--------|------|---------|-----|
+
+## Assets Staged
+| Filename | Type | Stages | Source | Attribution |
+|----------|------|--------|--------|-------------|
+
+## Assets Skipped
+| Name | Reason |
+|------|--------|
+
+## Ready for Integration
+<list element IDs and display names for card_04 to register>
 ```
 
----
+Write `![next:asset]!` when `GAMEFARM_ASSETS.md` is complete and assets are staged.
 
-### Phase 3 — Implement
+> **GIT SAFETY — NON-INTERACTIVE MODE**: Some git commands open an interactive editor (e.g. `git commit` without `-m`, `git rebase -i`, `git merge` with conflicts). This will **block the agent session** and require manual intervention.
 
-Permitted change types (ONE per sprint):
+> **Always use non-interactive flags**:
+> - `git commit -m "message"` — never bare `git commit`
+> - `git merge --no-edit` — accept the default merge message
+> - `git rebase --abort` if an interactive rebase accidentally starts
+> - If an editor opens unexpectedly, press **Ctrl+X** to exit nano/pico without saving, then retry with a non-interactive flag.
 
-**DRY / Abstraction fixes:**
-
-- **AbstractHarvestAction**: Create `src/element/element_actions/abstract_harvest_action.js` extending `ElementAction`. Extract the common `element.getResource().updateQuantity(...)` + `displayRightClick(...)` block from `ActionDefault`, `ActionHarvest`, and `ActionPrune` into a `_grantResource(element)` protected method. Each subclass calls `this._grantResource(element)`. Touch max 4 files: the new abstract file + 3 action files.
-
-- **ItemRegistry**: Create `src/game_manager/item_registry.js` exporting a single `getItem(id)` function that returns `Element.getElementFromId(id) || Resource.getResource(id)`. Replace the duplicated pattern in `ButtonBuy`, `ButtonSell`, and `ButtonMore`. Touch max 4 files.
-
-- **Shared price widget**: Extract `renderPriceWidget(container, item)` into `src/view/menus/menu_shop_utils.js` and import it in both `MenuShop` and `MenuShopMore`. Touch max 3 files.
-
-- **Typo fix**: Correct `"sqaure"` → `"square"` in `src/game_manager/game_lang.js`. 1 file, 1 line.
-
-- **Magic constant**: Extract `0.55` in `src/game/map.js` to `const ISLAND_COVERAGE_RATIO = 0.55` at the top of the file. 1 file.
-
-**New element registration (asset sprint):**
-- In `src/game_manager/game_assets.js`: add `IMG` entries for each staged asset using the correct path
-- In `src/game_manager/registry.js`: add `new ElementCrop(...)` or `new ElementDefault(...)` calls following the exact fluent API pattern used for melon, wheat, etc.
-- Choose `timeToGrow` in 500-2000ms range consistent with game balance
-
-**Hard scope limits:**
-- Max **3 files** (4 if fix requires new file + 3 existing)
-- Max **150 lines** changed (added + removed)
-- Do NOT touch `game_loader.js` initialization order
-- Do NOT combine map.js changes with any other file changes
-
----
-
-### Phase 4 — Verify Syntax
-
-Re-read each modified file top-to-bottom and confirm:
-1. All `import` statements reference correct relative paths
-2. Button files no longer contain `Element.getElementFromId` directly (if ItemRegistry fix)
-3. No `undefined` variable references introduced
-4. New `IMG` entries follow pattern: `KEY: newImage("assets/image/<subdir>/<file>.png", "<id>", <zIndex>)`
-5. Element ID in `game_assets.js` matches the filename stem
-
----
-
-### Phase 5 — Update Sprint File
-
-Append `## Implementation Notes` to `GAMEFARM_SPRINT.md`:
-```
-## Implementation Notes
-- Approach: <why this solution>
-- Files changed: <list with line-change counts>
-- Lines added: N, lines removed: N, total delta: N
-- Deferred (if any): <what was left out and why>
-- Import chain verified: yes/no
-```
-
-If sprint type is `code`: write `![next]!`
-If sprint type is `asset`: write `![next:asset]!`
-
-> **HOUSEKEEPING REMINDER**: Before finishing this task, take a moment to DRY up any duplicated code you encounter and tidy the folder structure. Remove dead code, consolidate shared logic, and ensure clean imports.
-
-> **GIT BRANCH POLICY**: This task involves high-risk changes. Before making any modifications, create a new git branch from the current branch using: `git checkout -b card/<card_id>`. Commit your changes to this branch. Do NOT push or merge — leave that for review.
 
 ---
 **COMPLETION CHECKLIST** — before you finish:

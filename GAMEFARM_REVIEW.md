@@ -1,11 +1,11 @@
-# GameFarm Review — Cycle 2
+# GameFarm Review — Cycle 3
 
 ## Automated Checks
 | # | Check | Result | Notes |
 |---|-------|--------|-------|
-| 1 | Diff size | PASS | 14 lines added, 17 lines removed = 31 total (≤ 150) |
-| 2 | Files touched | PASS | 4 files (item_registry.js + 3 button files) |
-| 3 | Import paths | PASS | All imports resolve: element.js, resource.js exist |
+| 1 | Diff size | PASS | 16 lines added, 12 lines removed = 28 total (≤ 150) |
+| 2 | Files touched | PASS | 2 files (menu_shop_utils.js, menu_shop.js) |
+| 3 | Import paths | PASS | All imports resolve: menu_shop_utils.js exists |
 | 4 | Debug artifacts | PASS | No console.log, debugger, or alert added |
 | 5 | Secrets | PASS | No passwords, API keys, tokens, or certificates found |
 | 6 | Asset existence | N/A | Code sprint, not asset sprint |
@@ -13,9 +13,9 @@
 ## Manual Checklist
 | # | Item | Result | Notes |
 |---|------|--------|-------|
-| 7 | Acceptance criteria | PASS | ItemRegistry.getItem() exists; all 3 button files use it |
-| 8 | DRY pattern removed | PASS | Removed duplicate Element.getElementFromId || Resource.getResource from all 3 button files |
-| 9 | Naming conventions | PASS | snake_case file name (item_registry.js), camelCase function (getItem) |
+| 7 | Acceptance criteria | PASS | renderPriceWidget() exists; MenuShop uses it |
+| 8 | DRY pattern removed | PASS | Removed inline price building from MenuShop.createShopItemCard() |
+| 9 | Naming conventions | PASS | snake_case file name (menu_shop_utils.js), camelCase function (renderPriceWidget) |
 | 10 | Error handling | N/A | No new error handling added |
 | 11 | No dead code | PASS | No commented-out code blocks added |
 | 12 | TOOLBAR_CATEGORY usage | N/A | No toolbar changes in this sprint |
@@ -30,6 +30,6 @@ No FAILs encountered. All checks passed on first pass.
 ---
 
 ## Git Metadata
-- Branch: feat/gamefarm-item-registry
-- Commit: ebec65e970f6ef5d32f732ddb45236d846176996
+- Branch: feat/gamefarm-price-widget-utils
+- Commit: a473569
 - Date: 2026-03-14
