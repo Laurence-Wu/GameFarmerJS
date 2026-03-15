@@ -51,3 +51,12 @@
 - **Lines changed**: 8 added, 1 removed
 - **Branch**: feat/gamefarm-get-resource-from-id (merged and deleted)
 - **DRY issues remaining**: 1 (P2 asset coverage gap; P3 getResourceFromId now resolved)
+
+## [cycle 7] 2026-03-15 — Add crop variety assets (carrot, corn, tomato)
+- **Sprint type**: asset
+- **Target**: src/game_manager/game_assets.js, src/game_manager/registry.js, assets/image/crops/
+- **Change**: Add 3 new crops (carrot, corn, tomato) with 7 growth stages each
+- **Assets added**: 21 PNG files (carrot0-6, corn0-6, tomato0-6)
+- **Lines changed**: 8 added, 1 removed
+- **Branch**: feat/gamefarm-crop-variety-assets (merged and deleted)
+- **DRY issues remaining**: 0 (asset coverage gap resolved)
