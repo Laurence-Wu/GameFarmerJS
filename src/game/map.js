@@ -94,7 +94,6 @@ export default class Map {
                 this.#addSquare(square);
             }
         }
-        console.log(`Island Loaded in ${performance.now() - start} ms. Land Tiles: ${islandTiles.size}`);
     }
 
     #getNeighborStats(x, y, islandTiles) {
