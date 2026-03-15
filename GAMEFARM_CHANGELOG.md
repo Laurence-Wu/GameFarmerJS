@@ -15,3 +15,12 @@
 - **Lines changed**: 14 added, 17 removed
 - **Branch**: feat/gamefarm-item-registry (merged and deleted)
 - **DRY issues remaining**: 1 (Harvest logic duplication P1 partially addressed)
+
+## [cycle 3] 2026-03-14 — renderPriceWidget utility
+- **Sprint type**: code
+- **Target**: src/view/menus/menu_shop_utils.js (new), src/view/menus/menu_shop.js
+- **Change**: Extract renderPriceWidget() helper to deduplicate price widget building
+- **Assets added**: none
+- **Lines changed**: 16 added, 12 removed
+- **Branch**: feat/gamefarm-price-widget-utils (merged and deleted)
+- **DRY issues remaining**: 0 (all P1 items addressed)
