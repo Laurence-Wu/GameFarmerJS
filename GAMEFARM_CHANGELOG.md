@@ -150,3 +150,156 @@
 - **Lines changed**: 4 added, 0 removed
 - **Branch**: feat/gamefarm-decoration-flower-variety (merged and deleted)
 - **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 18] 2026-03-15 — Extract decorations registration module
+- **Sprint type**: code
+- **Target**: src/game_manager/decorations.js (new), src/game_manager/static_objects.js, src/game_manager/registry.js
+- **Change**: Extract decoration element registrations to dedicated decorations.js module following modularization pattern from cycles 8-13
+- **Assets added**: none
+- **Lines changed**: 120 added, 49 removed
+- **Branch**: feat/gamefarm-decorations-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 19] 2026-03-15 — Remove hardcoded TOOLBAR_CATEGORY constant
+- **Sprint type**: code
+- **Target**: src/view/bar.js, src/game_manager/toolbar_categories.js
+- **Change**: Remove legacy TOOLBAR_CATEGORY constant and move all category registrations to toolbar_categories.js using registerToolbarCategory()
+- **Assets added**: none
+- **Lines changed**: 1 added, 13 removed
+- **Branch**: feat/gamefarm-remove-toolbar-category-constant (merged and deleted)
+- **DRY issues remaining**: 0 (backlog empty)
+
+## [cycle 20] 2026-03-15 — Analysis: static_objects.js tree extraction (deferred)
+- **Sprint type**: code
+- **Target**: src/game_manager/static_objects.js
+- **Change**: Analyzed tree registration extraction; deferred as 8 lines is too small to warrant modularization
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 4 items: 1 P2, 3 P3)
+
+## [cycle 21] 2026-03-15 — Remove console.log debugging statement
+- **Sprint type**: code
+- **Target**: src/game/map.js
+- **Change**: Remove bare console.log() debugging statement from #mapGenerator() method
+- **Assets added**: none
+- **Lines changed**: 0 added, 1 removed
+- **Branch**: feat/gamefarm-remove-console-log (merged and deleted)
+- **DRY issues remaining**: 0 (backlog has 4 items: 1 P2, 3 P3)
+
+## [cycle 22] 2026-03-15 — Remove orphaned //todo comment from render.js
+- **Sprint type**: code
+- **Target**: src/view/render.js
+- **Change**: Remove orphaned //todo comment from displayMessageToAlertBox() function
+- **Assets added**: none
+- **Lines changed**: 0 added, 1 removed
+- **Branch**: feat/gamefarm-render-todo-cleanup (merged and deleted)
+- **DRY issues remaining**: 0 (backlog has 4 items: 1 P2, 3 P3)
+
+## [cycle 23] 2026-03-15 — Extract tree registrations to trees.js module
+- **Sprint type**: code
+- **Target**: src/game_manager/trees.js (new), src/game_manager/static_objects.js, src/game_manager/registry.js
+- **Change**: Extract tree registrations (tree0, tree1) to dedicated trees.js module following modularization pattern
+- **Assets added**: none
+- **Lines changed**: 24 added, 11 removed
+- **Branch**: feat/gamefarm-trees-module (merged and deleted)
+- **DRY issues remaining**: 0 (backlog has 2 items: 0 P2, 2 P3)
+
+## [cycle 24] 2026-03-15 — Analysis: AbstractPruneAction extraction (deferred)
+- **Sprint type**: code
+- **Target**: src/element/element_actions/action_prune.js
+- **Change**: Analyzed prune logic extraction; deferred as action_prune.js already extends AbstractHarvestAction with no duplication
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 2 items: 0 P2, 2 P3)
+
+## [cycle 25] 2026-03-15 — Analysis: render.js TODO cleanup (already done)
+- **Sprint type**: code
+- **Target**: src/view/render.js
+- **Change**: Reviewed render.js TODO; found it was already removed in cycle 22, backlog entry outdated
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3)
+
+## [cycle 26] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 27] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 28] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 29] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 30] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 31] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 32] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 33] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: N/A (no code changes)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 34] 2026-03-15 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: card/card_07_cycle34 (merged and deleted)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
