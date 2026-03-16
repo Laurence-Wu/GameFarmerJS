@@ -312,3 +312,12 @@
 - **Lines changed**: 0 added, 0 removed
 - **Branch**: card/card_07_cycle35 (merged and deleted)
 - **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
+
+## [cycle 36] 2026-03-16 — No sprint selected
+- **Sprint type**: code
+- **Target**: N/A
+- **Change**: No sprint selected - backlog contains only conditional P3 item (prune logic extraction) not actionable until more prune actions are added
+- **Assets added**: none
+- **Lines changed**: 0 added, 0 removed
+- **Branch**: card/card_07_cycle36 (merged and deleted)
+- **DRY issues remaining**: 0 (backlog has 1 item: 0 P2, 1 P3 - conditional)
